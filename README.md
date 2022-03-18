@@ -1,5 +1,7 @@
 # WAECM
-
+Frontend: React
+Backend Spring Boot
+Database: MongoDB
 
 
 ## Getting started
@@ -84,6 +86,10 @@ You can also document commands to lint the code or run tests. These steps help t
 
 ## Authors and acknowledgment
 Show your appreciation to those who have contributed to the project.
+
+Steven Ludwig
+
+Dominik Nussbaumer
 
 ## License
 For open source projects, say how it is licensed.
