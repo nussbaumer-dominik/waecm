@@ -1,25 +1,25 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 
-import {ToastContainer, toast} from 'react-toastify';
-import {ApiService} from '../services/ApiService';
-import {AuthService} from '../services/AuthService';
+import {toast, ToastContainer} from "react-toastify";
+import {ApiService} from "../services/ApiService";
+import {AuthService} from "../services/AuthService";
 
-import AuthContent from './AuthContent';
-import Buttons from './Buttons';
+import AuthContent from "./AuthContent";
+import Buttons from "./Buttons";
 
 export default class AppContent extends Component {
   constructor(props) {
     super(props);
 
-    this.login = () => {
-      this.authService.login();
+    this.login = async () => {
+      await this.authService.login();
     };
 
     this.renewToken = () => {
       this.authService
         .renewToken()
         .then(user => {
-          toast.success('Token has been sucessfully renewed. :-)');
+          toast.success("Token has been successfully renewed. :-)");
           this.getUser();
         })
         .catch(error => {
@@ -27,16 +27,16 @@ export default class AppContent extends Component {
         });
     };
 
-    this.logout = () => {
-      this.authService.logout();
+    this.logout = async () => {
+      await this.authService.logout();
     };
 
     this.getUser = () => {
       this.authService.getUser().then(user => {
         if (user) {
-          toast.success('User has been successfully loaded from store.');
+          toast.success("User has been successfully loaded from store.");
         } else {
-          toast.info('You are not logged in.');
+          toast.info("You are not logged in.");
         }
         if (!this.shouldCancel) {
           this.setState({user});
