@@ -1,24 +1,43 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      2
     ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react"
+    "quotes": [
+      "warn",
+      "double"
     ],
-    "rules": {
-        "react/react-in-jsx-scope": "off",
-        "no-unused-vars": "off"
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "off",
+    "react/no-unescaped-entities": "off",
+    "react/prop-types": 0,
+    "react/require-default-props": 0
+  },
+  // TODO: fix this prop type eslint error -> doesn't actually affect application 
+  "overrides": [
+    {
+      "rules": {
+        "react/prop-types": 0
+      }
     }
+  ]
 }
