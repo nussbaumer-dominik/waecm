@@ -1,0 +1,14 @@
+# docker compose uebung 1
+version: '3.9'
+
+services:
+    frontend:
+        image: diason/waecm:waecm-2022-group-08-bsp-1-frontend
+        ports:
+            - "4444:80"
+        container_name: waecm-2022-group-08-bsp-1-frontend
+    backend:
+        image: diason/waecm:waecm-2022-group-08-bsp-1-backend
+        ports:
+            - "8080:8080"
+        container_name: waecm-2022-group-08-bsp-1-backend
