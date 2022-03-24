@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+
+spring:
+  jpa:
+    defer-datasource-initialization: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://waecm-sso.inso.tuwien.ac.at/realms/waecm
+          jwk-set-uri: https://waecm-sso.inso.tuwien.ac.at/realms/waecm/protocol/openid-connect/certs
