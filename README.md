@@ -1,7 +1,8 @@
 # WAECM
-Frontend: React
-Backend Spring Boot
-Database: MongoDB
+Stack: 
+- Frontend: React
+- Backend Spring Boot
+- Database: MongoDB
 
 
 ## Getting started
