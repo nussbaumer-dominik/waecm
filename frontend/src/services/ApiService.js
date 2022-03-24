@@ -33,6 +33,6 @@ export class ApiService {
       Accept: 'application/json',
       Authorization: 'Bearer ' + token
     };
-    return axios.get(Constants.apiRoot + 'test', {headers});
+    return axios.get(Constants.apiRoot + 'health', {headers});
   }
 }

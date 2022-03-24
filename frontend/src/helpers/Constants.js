@@ -3,5 +3,5 @@ export const Constants = {
   clientId: "waecm",
   clientRoot: "http://localhost:4444/",
   clientScope: "openid profile",
-  apiRoot: "https://demo.identityserver.io/api/",
+  apiRoot: "http://localhost:8080/",
 }

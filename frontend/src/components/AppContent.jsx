@@ -31,6 +31,18 @@ export default class AppContent extends Component {
       await this.authService.logout();
     };
 
+    this.callApi = () => {
+      this.apiService
+        .callApi()
+        .then(data => {
+          this.setState({ api: data.data });
+          toast.success('Api returned: ' + data.data);
+        })
+        .catch(error => {
+          toast.error(error);
+        });
+    };
+
     this.getUser = () => {
       this.authService.getUser().then(user => {
         if (user) {
@@ -63,6 +75,7 @@ export default class AppContent extends Component {
 
       <Buttons login={this.login}
                logout={this.logout}
+               callApi={this.callApi}
                renewToken={this.renewToken}
                getUser={this.getUser}/>
 

@@ -1,9 +1,14 @@
 package at.waecm.backend.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -11,10 +16,22 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(authz -> authz
-                        //.antMatchers(HttpMethod.GET, "/demo/**").hasAuthority("openid")
-                        //.antMatchers(HttpMethod.POST, "/demo").hasAuthority("openid")
-                        .anyRequest().authenticated())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+            .cors().and()
+            .authorizeRequests(auth -> auth
+                //.antMatchers(HttpMethod.GET, "/demo/**").hasAuthority("openid")
+                //.antMatchers(HttpMethod.POST, "/demo").hasAuthority("openid")
+                .anyRequest().authenticated())
+            .oauth2ResourceServer().jwt();
+
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4444"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
