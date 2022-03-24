@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {AuthService} from './AuthService';
+import {Constants} from "../helpers/Constants";
 
 export class ApiService {
   constructor() {
@@ -29,9 +30,9 @@ export class ApiService {
 
   _callApi(token) {
     const headers = {
-      Accept: 'application/json',
+      Accept: 'text/plain',
       Authorization: 'Bearer ' + token
     };
-    return axios.get('health', {headers});
+    return axios.get(Constants.baseUrl + 'health', {headers});
   }
 }
