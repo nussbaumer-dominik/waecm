@@ -5,7 +5,7 @@ Stack:
 
 - Frontend: React
   - Wir haben bis jetzt alle nur Erfahrung mit Angular gesammelt und wollten mal React ausprobieren, da es am Arbeitsmarkt sehr stark nachgefragt wird und diese LVA eine gute Möglichkeit bietet, sich damit vertraut zu machen.
-- Backend Spring Boot
+- Backend: Spring Boot
   - Kennen wir bereits aus der LVA SEPM. Sollte uns leichter fallen, wodurch das Development schneller vorangeht, was uns Zeit gibt, React kennen zu lernen
 - Database: MongoDB
   - Ermöglicht schnelle Entwicklung und eine hohe Schema-Flexibilität.
