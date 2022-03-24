@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {Constants} from '../helpers/Constants';
 import {AuthService} from './AuthService';
 
 export class ApiService {
@@ -33,6 +32,6 @@ export class ApiService {
       Accept: 'application/json',
       Authorization: 'Bearer ' + token
     };
-    return axios.get(Constants.apiRoot + 'health', {headers});
+    return axios.get('health', {headers});
   }
 }
