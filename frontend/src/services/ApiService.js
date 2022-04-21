@@ -7,20 +7,20 @@ export class ApiService {
     this.authService = new AuthService();
   }
 
-  callApi() {
+  initiatePayment() {
     return this.authService.getUser().then(user => {
       if (user && user.access_token) {
-        return this._callApi(user.access_token).catch(error => {
+        return this._initPayment(user.access_token).catch(error => {
           if (error.response.status === 401) {
             return this.authService.renewToken().then(renewedUser => {
-              return this._callApi(renewedUser.access_token);
+              return this._initPayment(renewedUser.access_token);
             });
           }
           throw error;
         });
       } else if (user) {
         return this.authService.renewToken().then(renewedUser => {
-          return this._callApi(renewedUser.access_token);
+          return this._initPayment(renewedUser.access_token);
         });
       } else {
         throw new Error('user is not logged in');
@@ -28,11 +28,40 @@ export class ApiService {
     });
   }
 
-  _callApi(token) {
+  getHistory() {
+    return this.authService.getUser().then(user => {
+      if (user && user.access_token) {
+        return this._getHistory(user.access_token).catch(error => {
+          if (error.response.status === 401) {
+            return this.authService.renewToken().then(renewedUser => {
+              return this._getHistory(renewedUser.access_token);
+            });
+          }
+          throw error;
+        });
+      } else if (user) {
+        return this.authService.renewToken().then(renewedUser => {
+          return this._getHistory(renewedUser.access_token);
+        });
+      } else {
+        throw new Error('user is not logged in');
+      }
+    });
+  }
+
+  _getHistory(token) {
     const headers = {
       Accept: 'text/plain',
       Authorization: 'Bearer ' + token
     };
-    return axios.get(Constants.baseUrl + 'health', {headers});
+    return axios.get(Constants.baseUrl + 'history', {headers});
+  }
+
+  _initPayment(token) {
+    const headers = {
+      Accept: 'text/plain',
+      Authorization: 'Bearer ' + token
+    };
+    return axios.get(Constants.baseUrl + 'payment', {headers});
   }
 }

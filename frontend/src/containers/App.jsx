@@ -37,17 +37,27 @@ class App extends Component {
       await this.authService.logout();
     };
 
-    this.callApi = () => {
-      this.apiService
-        .callApi()
-        .then(data => {
-          this.setState({api: data.data});
-          toast.success('Api returned: ' + data.data);
-        })
-        .catch(error => {
-          toast.error(error);
-        });
-    };
+    this.initiatePayment = async () => {
+      try {
+        const res = await this.apiService.initiatePayment();
+        let data = await res.json();
+        this.setState({payment: data.data});
+        toast.success('Api returned: ' + data.data);
+      } catch (e) {
+        toast.error(e);
+      }
+    }
+
+    this.getHistory = async () => {
+      try {
+        const res = await this.apiService.getHistory();
+        let data = await res.json();
+        this.setState({history: data.data});
+        toast.success('Api returned: ' + data.data);
+      } catch (e) {
+        toast.error(e);
+      }
+    }
 
     this.getUser = () => {
       this.authService.getUser().then(user => {
@@ -65,10 +75,6 @@ class App extends Component {
     this.apiService = new ApiService();
     this.state = {user: {}, api: {}};
     this.shouldCancel = false;
-  }
-
-  componentDidMount() {
-    this.getUser();
   }
 
   componentWillUnmount() {

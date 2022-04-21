@@ -35,18 +35,30 @@ export default class AppContent extends Component {
         });
     };
 
+    this.getHistory = async () => {
+      try {
+        const res = await this.apiService.getHistory();
+        let data = await res.json();
+        this.setState({history: data.data});
+        toast.success('Api returned: ' + data.data);
+      } catch (e) {
+        toast.error(e);
+      }
+    }
+
     this.getUser = () => {
       this.authService.getUser().then(user => {
         if (user) {
-          //toast.success("User has been successfully loaded from store.");
+          toast.success("User has been successfully loaded from store.");
         } else {
-          //toast.info("You are not logged in.");
+          toast.info("You are not logged in.");
         }
         if (!this.shouldCancel) {
           this.setState({user});
         }
       });
     };
+
     this.authService = new AuthService();
     this.apiService = new ApiService();
     this.state = {user: {}, api: {}};
@@ -65,9 +77,8 @@ export default class AppContent extends Component {
     return (<>
       <ToastContainer/>
 
-      <Buttons callApi={this.callApi}
-               renewToken={this.renewToken}
-               getUser={this.getUser}/>
+      <Buttons renewToken={this.renewToken}
+               />
 
       <AuthContent api={this.state.api}
                    user={this.state.user}/>
