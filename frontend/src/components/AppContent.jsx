@@ -11,10 +11,6 @@ export default class AppContent extends Component {
   constructor(props) {
     super(props);
 
-    this.login = async () => {
-      await this.authService.login();
-    };
-
     this.renewToken = () => {
       this.authService
         .renewToken()
@@ -25,10 +21,6 @@ export default class AppContent extends Component {
         .catch(error => {
           toast.error(error);
         });
-    };
-
-    this.logout = async () => {
-      await this.authService.logout();
     };
 
     this.callApi = () => {
@@ -46,9 +38,9 @@ export default class AppContent extends Component {
     this.getUser = () => {
       this.authService.getUser().then(user => {
         if (user) {
-          toast.success("User has been successfully loaded from store.");
+          //toast.success("User has been successfully loaded from store.");
         } else {
-          toast.info("You are not logged in.");
+          //toast.info("You are not logged in.");
         }
         if (!this.shouldCancel) {
           this.setState({user});
@@ -73,9 +65,7 @@ export default class AppContent extends Component {
     return (<>
       <ToastContainer/>
 
-      <Buttons login={this.login}
-               logout={this.logout}
-               callApi={this.callApi}
+      <Buttons callApi={this.callApi}
                renewToken={this.renewToken}
                getUser={this.getUser}/>
 

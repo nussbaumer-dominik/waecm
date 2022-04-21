@@ -10,7 +10,8 @@ export class AuthService {
       silent_redirect_uri: `${Constants.clientRoot}silent-renew.html`,
       post_logout_redirect_uri: `${Constants.clientRoot}`,
       response_type: 'code',
-      scope: Constants.clientScope
+      scope: Constants.clientScope,
+      prompt: 'consent'
     };
     this.userManager = new UserManager(settings);
     Log.logger = console;
