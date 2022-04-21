@@ -2,6 +2,11 @@ server:
   port: 8080
 
 spring:
+  data:
+    mongodb:
+      #user: test
+      #password: passwordvalue
+      uri: mongodb://localhost:27017/db
   jpa:
     defer-datasource-initialization: true
   security:
