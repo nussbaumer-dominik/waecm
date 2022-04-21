@@ -48,11 +48,6 @@ export default class AppContent extends Component {
 
     this.getUser = () => {
       this.authService.getUser().then(user => {
-        if (user) {
-          toast.success("User has been successfully loaded from store.");
-        } else {
-          toast.info("You are not logged in.");
-        }
         if (!this.shouldCancel) {
           this.setState({user});
         }

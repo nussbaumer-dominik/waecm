@@ -77,6 +77,10 @@ class App extends Component {
     this.shouldCancel = false;
   }
 
+  componentDidMount() {
+    this.getUser();
+  }
+
   componentWillUnmount() {
     this.shouldCancel = true;
   }
