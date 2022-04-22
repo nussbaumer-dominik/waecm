@@ -1,10 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
-import {toast, ToastContainer} from "react-toastify";
-import {ApiService} from "../services/ApiService";
-import {AuthService} from "../services/AuthService";
+import { toast, ToastContainer } from "react-toastify";
+import { ApiService } from "../services/ApiService";
+import { AuthService } from "../services/AuthService";
 
-import AuthContent from "./AuthContent";
 import Buttons from "./Buttons";
 
 export default class AppContent extends Component {
@@ -39,7 +39,7 @@ export default class AppContent extends Component {
       try {
         const res = await this.apiService.getHistory();
         let data = await res.json();
-        this.setState({history: data.data});
+        this.setState({ history: data.data });
         toast.success('Api returned: ' + data.data);
       } catch (e) {
         toast.error(e);
@@ -49,14 +49,14 @@ export default class AppContent extends Component {
     this.getUser = () => {
       this.authService.getUser().then(user => {
         if (!this.shouldCancel) {
-          this.setState({user});
+          this.setState({ user });
         }
       });
     };
 
     this.authService = new AuthService();
     this.apiService = new ApiService();
-    this.state = {user: {}, api: {}};
+    this.state = { user: {}, api: {} };
     this.shouldCancel = false;
   }
 
@@ -70,13 +70,20 @@ export default class AppContent extends Component {
 
   render() {
     return (<>
-      <ToastContainer/>
+      <ToastContainer />
 
       <Buttons renewToken={this.renewToken}
-               />
-
-      <AuthContent api={this.state.api}
-                   user={this.state.user}/>
+        user={this.state.user}
+      />
+      {this.state.user == null &&
+        <Container>
+          <Row>
+            <Col className="text-center">
+              Sie sind nicht eingeloggt!
+            </Col>
+          </Row>
+        </Container>
+      }
     </>);
   }
 }

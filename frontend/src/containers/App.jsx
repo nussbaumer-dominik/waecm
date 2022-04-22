@@ -11,6 +11,7 @@ import History from "../components/History";
 import Settings from "../components/Settings";
 import {toast} from "react-toastify";
 import {Col, Container, Row} from "react-bootstrap";
+import Profile from "../components/Profile";
 
 class App extends Component {
 
@@ -98,9 +99,10 @@ class App extends Component {
             <Col>
               <Routes>
                 <Route path="/" element={<AppContent/>}/>
-                <Route path="/payment" element={<Payment/>}/>
-                <Route path="/history" element={<History/>}/>
-                <Route path="/settings" element={<Settings/>}/>
+                <Route path="/payment" element={<Payment user={this.state.user}/>}/>
+                <Route path="/history" element={<History user={this.state.user}/>}/>
+                <Route path="/settings" element={<Settings user={this.state.user}/>}/>
+                <Route path="/profile" element={<Profile user={this.state.user}/>}/>
               </Routes>
             </Col>
           </Row>
