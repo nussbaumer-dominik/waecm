@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Routes, Route} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import AppContent from "../components/AppContent";
 import {ApiService} from "../services/ApiService";
 import {AuthService} from "../services/AuthService";
@@ -99,9 +99,12 @@ class App extends Component {
             <Col>
               <Routes>
                 <Route path="/" element={<AppContent/>}/>
-                <Route path="/payment" element={<PaymentPage user={this.state.user}/>}/>
-                <Route path="/history" element={<History user={this.state.user}/>}/>
-                <Route path="/settings" element={<Settings user={this.state.user}/>}/>
+                <Route path="/payment" element={<PaymentPage user={this.state.user}
+                                                             api={this.apiService}/>}/>
+                <Route path="/history" element={<History user={this.state.user}
+                                                         api={this.apiService}/>}/>
+                <Route path="/settings" element={<Settings user={this.state.user}
+                                                           api={this.apiService}/>}/>
                 <Route path="/profile" element={<Profile user={this.state.user}/>}/>
               </Routes>
             </Col>
