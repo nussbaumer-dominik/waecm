@@ -26,7 +26,7 @@ class App extends Component {
       this.authService
         .renewToken()
         .then(user => {
-          toast.success("Token has been successfully renewed. :-)");
+          toast.success("Token has been successfully renewed.");
           this.getUser();
         })
         .catch(error => {
@@ -63,7 +63,7 @@ class App extends Component {
     this.getUser = () => {
       this.authService.getUser().then(user => {
         if (user) {
-          toast.success("User has been successfully loaded from store.");
+          toast.success("User has been loaded from store.");
         } else {
           toast.info("You are not logged in.");
         }
@@ -105,7 +105,8 @@ class App extends Component {
                                                          api={this.apiService}/>}/>
                 <Route path="/settings" element={<Settings user={this.state.user}
                                                            api={this.apiService}/>}/>
-                <Route path="/profile" element={<Profile user={this.state.user}/>}/>
+                <Route path="/profile" element={<Profile user={this.state.user}
+                                                         getUser={this.getUser}/>}/>
               </Routes>
             </Col>
           </Row>
