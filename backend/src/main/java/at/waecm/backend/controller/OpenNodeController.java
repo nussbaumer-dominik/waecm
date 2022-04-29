@@ -1,8 +1,14 @@
 package at.waecm.backend.controller;
 
 import at.waecm.backend.Service.UserService;
+import at.waecm.backend.dto.ChargeInfoDataDto;
+import at.waecm.backend.dto.ChargeInfoDto;
 import at.waecm.backend.dto.CreateChargeDto;
+import at.waecm.backend.dto.PaymentStatus;
 import at.waecm.backend.model.User;
+import at.waecm.backend.repository.ChargeInfoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +29,13 @@ import java.net.http.HttpResponse;
 public class OpenNodeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final String BASE_URL = "/openNode";
+    private final ChargeInfoRepository chargeInfoRepository;
     private final UserService userService;
 
     @Autowired
-    public OpenNodeController(UserService userService) {
+    public OpenNodeController(UserService userService, ChargeInfoRepository chargeInfoRepository) {
         this.userService = userService;
+        this.chargeInfoRepository = chargeInfoRepository;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -68,7 +76,7 @@ public class OpenNodeController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/chargeInfo/{chargeId}")
-    public String chargeInfo(Authentication authUser, @PathVariable("chargeId") String chargeId) {
+    public ChargeInfoDto chargeInfo(Authentication authUser, @PathVariable("chargeId") String chargeId) {
         User user = userService.loadUser(authUser);
         if (user.getApiKey() == null || user.getApiKey().isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "No Api Key found");
@@ -90,7 +98,16 @@ public class OpenNodeController {
         }
         if (response != null) {
             System.out.println(response.body());
-            return response.body();
+            try {
+                ChargeInfoDto chargeInfoDto = (new ObjectMapper().readValue(response.body(), ChargeInfoDataDto.class)).getData();
+                if (chargeInfoDto.getStatus() == PaymentStatus.paid) {
+                    chargeInfoRepository.save(chargeInfoDto);
+                }
+                return chargeInfoDto;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Error while deserializing json");
+            }
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Body is empty");
     }
