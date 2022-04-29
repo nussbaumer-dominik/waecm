@@ -9,9 +9,7 @@ import org.springframework.data.annotation.Id;
 @Builder
 public class UserDto {
     @Id
-    @NonNull
     private String id;
-    @NonNull
     private String name;
     private boolean apiKeyStored;
     private String localeCurrency;

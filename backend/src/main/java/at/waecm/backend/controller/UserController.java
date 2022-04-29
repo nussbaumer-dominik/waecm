@@ -1,5 +1,6 @@
 package at.waecm.backend.controller;
 
+import at.waecm.backend.Service.UserService;
 import at.waecm.backend.dto.UserDto;
 import at.waecm.backend.mapper.UserMapper;
 import at.waecm.backend.model.User;
@@ -22,10 +23,12 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final String BASE_URL = "/user";
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -49,7 +52,7 @@ public class UserController {
     @GetMapping("/apiKey")
     public boolean apiKeyStored(Authentication authUser) {
         LOGGER.info("POST " + BASE_URL + "/apiKey");
-        User user = loadUser(authUser);
+        User user = userService.loadUser(authUser);
         return user.getApiKey() != null && !user.getApiKey().isEmpty();
     }
 
@@ -60,7 +63,7 @@ public class UserController {
         if (apiKey == null || apiKey.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "API key must not be null or empty");
 
-        User user = loadUser(authUser);
+        User user = userService.loadUser(authUser);
         user.setApiKey(apiKey.trim());
         userRepository.save(user);
     }
@@ -69,7 +72,7 @@ public class UserController {
     @GetMapping("/localCurrency")
     public String getLocalCurrency(Authentication authUser) {
         LOGGER.info("GET " + BASE_URL + "/localCurrency");
-        return loadUser(authUser).getLocaleCurrency();
+        return userService.loadUser(authUser).getLocaleCurrency();
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -78,18 +81,8 @@ public class UserController {
         LOGGER.info("POST " + BASE_URL + "/localCurrency " + localCurrency);
         if (localCurrency == null || localCurrency.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Location currency must not be null or empty");
-        User user = loadUser(authUser);
+        User user = userService.loadUser(authUser);
         user.setLocaleCurrency(localCurrency);
         userRepository.save(user);
-    }
-
-    private User loadUser(Authentication authUser) {
-        Jwt jwt = (Jwt) authUser.getPrincipal();
-        Optional<User> optUser = userRepository.findById(jwt.getClaimAsString("sub"));
-        if (optUser.isPresent()) {
-            return optUser.get();
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
     }
 }
