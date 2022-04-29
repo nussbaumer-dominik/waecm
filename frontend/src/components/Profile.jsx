@@ -2,7 +2,8 @@ import * as React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 
 export default function Profile(props) {
-  if (props.user == null || Object.keys(props.user).length === 0) {
+
+  if (props.user === null || Object.keys(props.user).length === 0) {
     window.location = "/";
   }
 

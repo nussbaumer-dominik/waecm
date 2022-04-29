@@ -34,6 +34,17 @@ class App extends Component {
         });
     };
 
+    this.addUser = async () => {
+      try {
+        const res = await this.apiService.addUser(this.state.user.access_token);
+        console.log(res);
+        this.setState({dbUser: res});
+        toast.success('Api returned: ' + JSON.stringify(res.data));
+      } catch (e) {
+        toast.error(e);
+      }
+    }
+
     this.logout = async () => {
       await this.authService.logout();
     };
@@ -67,23 +78,17 @@ class App extends Component {
         } else {
           toast.info("You are not logged in.");
         }
-        if (!this.shouldCancel) {
-          this.setState({user});
-        }
+        this.setState({user});
       });
     };
+
     this.authService = new AuthService();
     this.apiService = new ApiService();
-    this.state = {user: {}, api: {}};
-    this.shouldCancel = false;
+    this.state = {user: {}, api: {}, dbUser: {}, history: {}};
   }
 
   componentDidMount() {
     this.getUser();
-  }
-
-  componentWillUnmount() {
-    this.shouldCancel = true;
   }
 
   render() {
@@ -98,7 +103,12 @@ class App extends Component {
           <Row>
             <Col>
               <Routes>
-                <Route path="/" element={<AppContent/>}/>
+                <Route path="/" element={<AppContent apiService={this.apiService}
+                                                     getUser={this.getUser}
+                                                     renewToken={this.renewToken}
+                                                     addUser={this.addUser}
+                                                     state={this.state}
+                                                     setState={this.setState}/>}/>
                 <Route path="/payment" element={<PaymentPage user={this.state.user}
                                                              api={this.apiService}/>}/>
                 <Route path="/history" element={<History user={this.state.user}

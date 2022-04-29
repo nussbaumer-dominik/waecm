@@ -1,9 +1,7 @@
-import React, { Component } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import React, {Component} from "react";
+import {Col, Container, Row} from "react-bootstrap";
 
-import { toast, ToastContainer } from "react-toastify";
-import { ApiService } from "../services/ApiService";
-import { AuthService } from "../services/AuthService";
+import {ToastContainer} from "react-toastify";
 
 import Buttons from "./Buttons";
 
@@ -11,71 +9,29 @@ export default class AppContent extends Component {
   constructor(props) {
     super(props);
 
-    this.renewToken = () => {
-      this.authService
-        .renewToken()
-        .then(user => {
-          toast.success("Token has been successfully renewed. :-)");
-          this.getUser();
-        })
-        .catch(error => {
-          toast.error(error);
-        });
-    };
-
-    this.callApi = () => {
-      this.apiService
-        .callApi()
-        .then(data => {
-          this.setState({ api: data.data });
-          toast.success('Api returned: ' + data.data);
-        })
-        .catch(error => {
-          toast.error(error);
-        });
-    };
-
-    this.getHistory = async () => {
-      try {
-        const res = await this.apiService.getHistory();
-        let data = await res.json();
-        this.setState({ history: data.data });
-        toast.success('Api returned: ' + data.data);
-      } catch (e) {
-        toast.error(e);
-      }
-    }
-
-    this.getUser = () => {
-      this.authService.getUser().then(user => {
-        if (!this.shouldCancel) {
-          this.setState({ user });
-        }
+    this.getHealth = () => {
+      this.props.apiService.checkHealth().then(health => {
+        console.log(health);
       });
     };
-
-    this.authService = new AuthService();
-    this.apiService = new ApiService();
-    this.state = { user: {}, api: {} };
-    this.shouldCancel = false;
   }
 
   componentDidMount() {
-    this.getUser();
-  }
-
-  componentWillUnmount() {
-    this.shouldCancel = true;
+    if (this.props.state.user == null) {
+      this.props.getUser();
+    }
   }
 
   render() {
     return (<>
-      <ToastContainer />
+      <ToastContainer/>
 
-      <Buttons renewToken={this.renewToken}
-        user={this.state.user}
+      <Buttons renewToken={this.props.renewToken}
+               getHealth={this.getHealth}
+               addUser={this.props.addUser}
+               user={this.props.state.user}
       />
-      {this.state.user == null &&
+      {this.props.state.user == null &&
         <Container>
           <Row>
             <Col className="text-center">

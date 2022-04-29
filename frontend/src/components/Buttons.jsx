@@ -11,6 +11,18 @@ export default function Buttons(props) {
         }
 
         {props.user != null &&
+          <button className="btn btn-warning" style={{ margin: "10px" }} onClick={props.getHealth}>
+            Get Health
+          </button>
+        }
+
+        {props.user != null &&
+          <button className="btn btn-warning" style={{ margin: "10px" }} onClick={props.addUser}>
+            AddUser
+          </button>
+        }
+
+        {props.user != null &&
           <button className="btn btn-success" style={{ margin: "10px" }} onClick={props.renewToken}>
             Renew Token
           </button>
