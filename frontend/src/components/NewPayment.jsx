@@ -1,40 +1,36 @@
 import * as React from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
 
-export default function NewPayment({paymentInfo, setPaymentInfo, rates}) {
-  function convertBTCtoSatoshi(amount) {
-    if (rates != null && amount != null) {
-      return (parseFloat(amount * 100000) * rates["BTCEUR"].BTC);
-    } else {
-      return 0;
-    }
-  }
+export default function NewPayment(props) {
 
   const handleAmountChange = event => {
-    if (event.target.value !== null) {
-      setPaymentInfo({...paymentInfo, amount: parseFloat(event.target.value)});
+    if (event.target.value !== null && event.target.value !== undefined && !isNaN(event.target.value)) {
+      const parsedValue = parseFloat(event.target.value);
+      if (isNaN(parsedValue)) {
+        props.setPaymentInfo({...props.paymentInfo, amount: 0});
+      } else {
+        props.setPaymentInfo({...props.paymentInfo, amount: parsedValue});
+      }
     } else {
-      setPaymentInfo({...paymentInfo, amount: 0});
+      props.setPaymentInfo({...props.paymentInfo, amount: 0});
     }
   }
 
   const handleDescriptionChange = event => {
     if (event.target.value.length <= 30) {
-      setPaymentInfo({...paymentInfo, description: event.target.value});
+      props.setPaymentInfo({...props.paymentInfo, description: event.target.value});
     }
   }
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(paymentInfo);
-    if (paymentInfo.amount === 0 || paymentInfo.amount == null) {
-      console.error("Der Betrag ist ein Pflichtfeld!")
+    if (props.paymentInfo.amount === 0 || props.paymentInfo.amount === null || isNaN(props.paymentInfo.amount)) {
       alert("Der Betrag ist ein Pflichtfeld!");
       return;
-    } else {
-      alert(JSON.stringify(paymentInfo));
-      setPaymentInfo({...paymentInfo, state: "qrCode"});
     }
+
+    props.setPaymentInfo({...props.paymentInfo, state: "qrCode"});
   }
 
   return (
@@ -49,25 +45,24 @@ export default function NewPayment({paymentInfo, setPaymentInfo, rates}) {
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Betrag (in €)</Form.Label>
-                  <Form.Control type="number"
+                  <Form.Control type="text"
                                 name="amount"
-                                placeholder="€ Betrag"
-                                value={paymentInfo.amount}
+                                value={props.paymentInfo.amount}
                                 onChange={handleAmountChange}/>
                   <Form.Text
-                    className="text-muted float-right">{convertBTCtoSatoshi(paymentInfo.amount)} SAT</Form.Text>
+                    className="text-muted float-right">{convertBTCtoSatoshi(props.rates, props.paymentInfo.amount).toFixed(2)} SAT</Form.Text>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3">
                   <Form.Label>Beschreibung <span className="text-muted">(Optional)</span></Form.Label>
                   <Form.Control type="text"
                                 name="description"
                                 placeholder="Beschreibung"
                                 maxLength="30"
-                                value={paymentInfo.description}
+                                value={props.paymentInfo.description}
                                 onChange={handleDescriptionChange}/>
                   <Form.Text
-                    className="text-muted float-right">Noch {30 - paymentInfo.description.length} Zeichen</Form.Text>
+                    className="text-muted float-right">Noch {30 - props.paymentInfo.description.length} Zeichen</Form.Text>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                   Bezahlen
