@@ -28,7 +28,6 @@ export default class AppContent extends Component {
 
       <Buttons renewToken={this.props.renewToken}
                getHealth={this.getHealth}
-               addUser={this.props.addUser}
                user={this.props.state.user}
       />
       {this.props.state.user == null &&

@@ -34,10 +34,9 @@ class App extends Component {
         });
     };
 
-    this.addUser = async () => {
+    this.addUser = async (token) => {
       try {
-        const res = await this.apiService.addUser(this.state.user.access_token);
-        console.log(res);
+        const res = await this.apiService.addUser(token);
         this.setState({dbUser: res});
         toast.success('Api returned: ' + JSON.stringify(res.data));
       } catch (e) {
@@ -84,11 +83,25 @@ class App extends Component {
 
     this.authService = new AuthService();
     this.apiService = new ApiService();
-    this.state = {user: {}, api: {}, dbUser: {}, history: {}};
+    this.state = {
+      user: {},
+      api: {},
+      dbUser: {},
+      history: {},
+      settings: {}
+    };
   }
 
   componentDidMount() {
-    this.getUser();
+    this.authService.getUser().then(user => {
+      if (user) {
+        toast.success("User has been loaded from store.");
+        this.addUser(user.access_token);
+      } else {
+        toast.info("You are not logged in.");
+      }
+      this.setState({user});
+    });
   }
 
   render() {
@@ -106,7 +119,6 @@ class App extends Component {
                 <Route path="/" element={<AppContent apiService={this.apiService}
                                                      getUser={this.getUser}
                                                      renewToken={this.renewToken}
-                                                     addUser={this.addUser}
                                                      state={this.state}
                                                      setState={this.setState}/>}/>
                 <Route path="/payment" element={<PaymentPage user={this.state.user}
