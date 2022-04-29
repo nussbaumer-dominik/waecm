@@ -14,4 +14,5 @@ public class UserDto {
     @NonNull
     private String name;
     private boolean apiKeyStored;
+    private String localeCurrency;
 }

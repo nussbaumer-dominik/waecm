@@ -31,6 +31,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/loggedIn")
     public UserDto userLoggedIn(Authentication authUser) {
+        LOGGER.info("POST " + BASE_URL + "/apiKey");
+
         Jwt jwt = (Jwt) authUser.getPrincipal();
         System.out.println("User Id: " + jwt.getClaimAsString("sub"));
         Optional<User> user = userRepository.findById(jwt.getClaimAsString("sub"));
@@ -47,30 +49,45 @@ public class UserController {
     @GetMapping("/apiKey")
     public boolean apiKeyStored(Authentication authUser) {
         LOGGER.info("POST " + BASE_URL + "/apiKey");
-        Jwt jwt = (Jwt) authUser.getPrincipal();
-        System.out.println(jwt.getClaims().keySet());
-        System.out.println(jwt.getClaims());
-        Optional<User> optUser = userRepository.findById(jwt.getClaimAsString("sub"));
-        if (optUser.isPresent()) {
-            return !optUser.get().getApiKey().isEmpty();
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        User user = loadUser(authUser);
+        return user.getApiKey() != null && !user.getApiKey().isEmpty();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/apiKey")
     public void setApiKey(Authentication authUser, @RequestBody String apiKey) {
         LOGGER.info("POST " + BASE_URL + "/apiKey " + apiKey);
-        if (apiKey != null && apiKey.isEmpty()) throw new ResponseStatusException(HttpStatus.CONFLICT, "API key must not be null or empty");
+        if (apiKey == null || apiKey.isEmpty())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "API key must not be null or empty");
 
+        User user = loadUser(authUser);
+        user.setApiKey(apiKey.trim());
+        userRepository.save(user);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/localCurrency")
+    public String getLocalCurrency(Authentication authUser) {
+        LOGGER.info("GET " + BASE_URL + "/localCurrency");
+        return loadUser(authUser).getLocaleCurrency();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/localCurrency")
+    public void setLocalCurrency(Authentication authUser, @RequestBody String localCurrency) {
+        LOGGER.info("POST " + BASE_URL + "/localCurrency " + localCurrency);
+        if (localCurrency == null || localCurrency.isEmpty())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Location currency must not be null or empty");
+        User user = loadUser(authUser);
+        user.setLocaleCurrency(localCurrency);
+        userRepository.save(user);
+    }
+
+    private User loadUser(Authentication authUser) {
         Jwt jwt = (Jwt) authUser.getPrincipal();
-        System.out.println("User Id: " + jwt.getClaimAsString("sub"));
         Optional<User> optUser = userRepository.findById(jwt.getClaimAsString("sub"));
         if (optUser.isPresent()) {
-            User user = optUser.get();
-            user.setApiKey(apiKey.trim());
-            userRepository.save(user);
+            return optUser.get();
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

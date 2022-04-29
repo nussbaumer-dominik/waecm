@@ -16,5 +16,6 @@ public class User {
     @NonNull
     private String name;
     private String apiKey;
+    private String localeCurrency;
 
 }
