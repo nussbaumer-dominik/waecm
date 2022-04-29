@@ -35,11 +35,14 @@ public class OpenNodeController {
     public String createCharge(Authentication authUser, @RequestBody CreateChargeDto createChargeDto) {
         LOGGER.info("POST " + BASE_URL + "/charge");
         User user = userService.loadUser(authUser);
+        if (user.getApiKey() == null || user.getApiKey().isEmpty())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "No Api Key found");
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://dev-api.opennode.com/v1/charges"))
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
-                .header("Authorization", "b941748e-8988-4728-96a6-f1ce77c522b5")
+                .header("Authorization", user.getApiKey())
                 .method("POST", HttpRequest.BodyPublishers.ofString("{" +
                         "\"ttl\":1440," +
                         "\"description\":\"" + createChargeDto.getDescription() + "\"," +
@@ -61,6 +64,12 @@ public class OpenNodeController {
             return response.body();
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Body is empty");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/history")
+    public void getPaymentHistory(Authentication authUser) {
+        User user = userService.loadUser(authUser);
     }
 
 }
