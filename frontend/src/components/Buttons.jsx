@@ -16,10 +16,6 @@ export default function Buttons(props) {
           </button>
         }
 
-        <button className="btn btn-warning" style={{ margin: "10px" }} onClick={props.getRates}>
-          Get Rates
-        </button>
-
         {props.user != null &&
           <button className="btn btn-success" style={{ margin: "10px" }} onClick={props.renewToken}>
             Renew Token

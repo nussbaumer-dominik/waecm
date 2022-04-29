@@ -11,7 +11,7 @@ export default function PaymentPage(props) {
   }
 
   const [paymentInfo, setPaymentInfo] = useState({
-    amount: 0,
+    amount: "",
     description: "",
     state: "newPayment"
   })
@@ -26,7 +26,8 @@ export default function PaymentPage(props) {
     case "qrCode":
       return (
         <QrCode paymentInfo={paymentInfo}
-                setPaymentInfo={setPaymentInfo}/>
+                setPaymentInfo={setPaymentInfo}
+                rates={props.state.rates}/>
       );
     case "success":
       return (
