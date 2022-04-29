@@ -55,9 +55,38 @@ public class OpenNodeController {
         try {
             response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
-            System.out.println("IOException ...");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IO Exception occurred");
         } catch (InterruptedException e) {
-            System.out.println("InterruptedException ...");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "InterruptedException occurred");
+        }
+        if (response != null) {
+            System.out.println(response.body());
+            return response.body();
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Body is empty");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/chargeInfo/{chargeId}")
+    public String chargeInfo(Authentication authUser, @PathVariable("chargeId") String chargeId) {
+        User user = userService.loadUser(authUser);
+        if (user.getApiKey() == null || user.getApiKey().isEmpty())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "No Api Key found");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://dev-api.opennode.com/v1/charge/" + chargeId))
+                .header("Accept", "application/json")
+                .header("Authorization", user.getApiKey())
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            System.out.println("IOException ...");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "IO Exception occurred");
+        } catch (InterruptedException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "InterruptedException occurred");
         }
         if (response != null) {
             System.out.println(response.body());
