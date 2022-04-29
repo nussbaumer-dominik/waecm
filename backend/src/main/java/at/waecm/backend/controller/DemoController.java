@@ -27,8 +27,8 @@ public class DemoController {
     public void findAllAdminPage(@RequestBody String name) {
         LOGGER.info("POST " + BASE_URL + "/addUser");
         System.out.println("Adding User with name: " + name);
-        User user = new User();
+        /*User user = new User();
         user.setApiKey(name);
-        userRepository.save(user);
+        userRepository.save(user);*/
     }
 }
