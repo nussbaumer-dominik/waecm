@@ -6,7 +6,7 @@ import PaymentSuccess from "../components/PaymentSuccess";
 import {Alert} from "react-bootstrap";
 
 export default function PaymentPage(props) {
-  if (props.user == null) {
+  if (props.state.user == null) {
     window.location = "/";
   }
 
@@ -20,7 +20,8 @@ export default function PaymentPage(props) {
     case "newPayment":
       return (
         <NewPayment paymentInfo={paymentInfo}
-                    setPaymentInfo={setPaymentInfo}/>
+                    setPaymentInfo={setPaymentInfo}
+                    rates={props.state.rates}/>
       );
     case "qrCode":
       return (

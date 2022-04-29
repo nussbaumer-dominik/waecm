@@ -1,13 +1,21 @@
 import * as React from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 
-export default function NewPayment({paymentInfo, setPaymentInfo}) {
+export default function NewPayment({paymentInfo, setPaymentInfo, rates}) {
   function convertBTCtoSatoshi(amount) {
-    return amount / 100000000;
+    if (rates != null && amount != null) {
+      return (parseFloat(amount * 100000) * rates["BTCEUR"].BTC);
+    } else {
+      return 0;
+    }
   }
 
   const handleAmountChange = event => {
-    setPaymentInfo({...paymentInfo, amount: parseFloat(event.target.value)});
+    if (event.target.value !== null) {
+      setPaymentInfo({...paymentInfo, amount: parseFloat(event.target.value)});
+    } else {
+      setPaymentInfo({...paymentInfo, amount: 0});
+    }
   }
 
   const handleDescriptionChange = event => {

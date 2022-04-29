@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 
 import Buttons from "./Buttons";
 
@@ -11,7 +11,7 @@ export default class AppContent extends Component {
 
     this.getHealth = () => {
       this.props.apiService.checkHealth().then(health => {
-        console.log(health);
+        toast.success('Api returned: ' + JSON.stringify(health));
       });
     };
   }
@@ -28,6 +28,7 @@ export default class AppContent extends Component {
 
       <Buttons renewToken={this.props.renewToken}
                getHealth={this.getHealth}
+               getRates={this.props.getRates}
                user={this.props.state.user}
       />
       {this.props.state.user == null &&

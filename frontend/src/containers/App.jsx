@@ -12,6 +12,7 @@ import Settings from "../components/Settings";
 import {toast} from "react-toastify";
 import {Col, Container, Row} from "react-bootstrap";
 import Profile from "../components/Profile";
+import axios from "axios";
 
 class App extends Component {
 
@@ -34,14 +35,25 @@ class App extends Component {
         });
     };
 
-    this.addUser = async (token) => {
+    this.addUser = (token) => {
       try {
-        const res = await this.apiService.addUser(token);
-        this.setState({dbUser: res});
-        toast.success('Api returned: ' + JSON.stringify(res.data));
+        this.apiService.addUser(token).then(res => {
+          if (res != null) {
+            this.setState({dbUser: res});
+            toast.success('Api returned: ' + JSON.stringify(res.data));
+          }
+        });
       } catch (e) {
         toast.error(e);
       }
+    }
+
+    this.getRates = () => {
+      axios.get("https://api.opennode.com/v1/rates")
+        .then(rates => {
+          const data = rates.data.data;
+          this.setState({rates: data});
+        });
     }
 
     this.logout = async () => {
@@ -88,15 +100,18 @@ class App extends Component {
       api: {},
       dbUser: {},
       history: {},
-      settings: {}
+      settings: {},
+      rates: {}
     };
   }
 
   componentDidMount() {
-    this.authService.getUser().then(user => {
+    this.authService.getUser()
+      .then(user => {
       if (user) {
         toast.success("User has been loaded from store.");
         this.addUser(user.access_token);
+        this.getRates();
       } else {
         toast.info("You are not logged in.");
       }
@@ -120,8 +135,8 @@ class App extends Component {
                                                      getUser={this.getUser}
                                                      renewToken={this.renewToken}
                                                      state={this.state}
-                                                     setState={this.setState}/>}/>
-                <Route path="/payment" element={<PaymentPage user={this.state.user}
+                                                     getRates={this.getRates}/>}/>
+                <Route path="/payment" element={<PaymentPage state={this.state}
                                                              api={this.apiService}/>}/>
                 <Route path="/history" element={<History user={this.state.user}
                                                          api={this.apiService}/>}/>
