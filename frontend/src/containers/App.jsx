@@ -42,9 +42,10 @@ class App extends Component {
           .then(res => {
             if (res != null) {
               this.setState({dbUser: res.data});
+              const key = res.data.apiKeyStored ? "****" : "";
               const settings = {
-                apiKey: this.state.dbUser.apiKey,
-                localCurrency: this.state.dbUser.localCurrency
+                apiKey: key,
+                localCurrency: res.data.localCurrency
               }
               this.setState({settings})
               toast.success('Api returned: ' + JSON.stringify(res.data));
