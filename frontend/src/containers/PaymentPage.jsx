@@ -13,13 +13,15 @@ export default function PaymentPage(props) {
   const [paymentInfo, setPaymentInfo] = useState({
     amount: "",
     description: "",
-    currency: "EUR",
+    currency: "",
     state: "newPayment"
   })
 
-  useEffect(() => {
+  const useMountEffect = func => useEffect(func, []);
+
+  useMountEffect(() => {
     setPaymentInfo({...paymentInfo, currency: props.state.dbUser.localCurrency})
-  }, [paymentInfo, props.state.dbUser.localCurrency]);
+  });
 
   switch (paymentInfo.state) {
     case "newPayment":

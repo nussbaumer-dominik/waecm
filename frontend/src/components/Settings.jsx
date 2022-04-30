@@ -1,21 +1,22 @@
 import * as React from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 
-export default function Settings({state, setState, api, addUser}) {
+export default function Settings({state, setSettings, api, addUser}) {
   if (state.user == null) {
     window.location = "/";
   }
 
   const handleKeyChange = event => {
+    console.log("key pressed");
     if (event.target.value.length <= 30) {
       state.settings.apiKey = event.target.value;
-      setState({...state.settings});
+      setSettings({...state.settings});
     }
   }
 
   const handleCurrencyChange = event => {
     state.settings.localCurrency = event.target.value;
-    setState({...state.settings});
+    setSettings({...state.settings});
   }
 
   const handleSubmit = event => {
@@ -46,15 +47,16 @@ export default function Settings({state, setState, api, addUser}) {
 
                 <Form.Group>
                   <Form.Label>Lokale Währung</Form.Label>
-                  <Form.Select value={state.settings.localCurrency} onChange={handleCurrencyChange}>
+                  <Form.Control as="select" value={state.settings.localCurrency}
+                                onChange={handleCurrencyChange}>
                     <option value={""}>Keine</option>
                     {Object.entries(state.rates).map(([key, rateObject], index) => (
                       <option value={key.substring(3)} key={key}>{key.substring(3)}</option>
                     ))}
-                  </Form.Select>
+                  </Form.Control>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="justify-self-center">
+                <Button variant="primary" type="submit" className="justify-self-center mt-3">
                   Speichern
                 </Button>
               </Form>

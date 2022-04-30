@@ -24,7 +24,15 @@ export default class AppContent extends Component {
 
   render() {
     return (<>
-      <ToastContainer/>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover/>
 
       <Buttons renewToken={this.props.renewToken}
                getHealth={this.getHealth}

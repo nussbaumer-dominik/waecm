@@ -34,7 +34,6 @@ export default function Header(props) {
                 <NavLink to="/settings" className="nav-link">Einstellungen</NavLink>
               </li>
             }
-
           </ul>
 
           {props.user == null &&
@@ -57,7 +56,6 @@ export default function Header(props) {
                 <DropdownItem>
                   <Link to="profile" style={linkStyle}>
                     {props.user.profile.name}
-                    <span className="d-block text-muted">@{props.user.profile.preferred_username}</span>
                   </Link>
                 </DropdownItem>
                 <Dropdown.Divider />

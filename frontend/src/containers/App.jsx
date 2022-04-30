@@ -47,7 +47,7 @@ class App extends Component {
                 localCurrency: res.data.localCurrency
               }
               this.setState({settings})
-              toast.success('Api returned: ' + JSON.stringify(res.data));
+              toast.success('Api returned successfully!');
             }
           });
       } catch (e) {
@@ -89,11 +89,14 @@ class App extends Component {
       });
     };
 
+    this.setSettings = (settings) => {
+      this.setState({settings: settings});
+    }
+
     this.authService = new AuthService();
     this.apiService = new ApiService();
     this.state = {
       user: {},
-      api: {},
       dbUser: {},
       history: {},
       settings: {},
@@ -112,6 +115,9 @@ class App extends Component {
           toast.info("You are not logged in.");
         }
         this.setState({user});
+      })
+      .catch(() => {
+        this.logout();
       });
   }
 
@@ -137,7 +143,7 @@ class App extends Component {
                 <Route path="/history" element={<History user={this.state.user}
                                                          api={this.apiService}/>}/>
                 <Route path="/settings" element={<Settings state={this.state}
-                                                           setState={this.setState}
+                                                           setSettings={this.setSettings}
                                                            addUser={this.addUser}
                                                            api={this.apiService}/>}/>
                 <Route path="/profile" element={<Profile user={this.state.user}

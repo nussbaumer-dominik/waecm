@@ -28,7 +28,7 @@ export default function NewPayment(props) {
 
     const body = {
       amount: props.paymentInfo.amount,
-      description: props.paymentInfo.debugPort,
+      description: props.paymentInfo.description,
       currency: props.paymentInfo.currency
     };
 
