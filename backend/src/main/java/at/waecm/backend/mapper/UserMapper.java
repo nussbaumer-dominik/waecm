@@ -11,7 +11,7 @@ public class UserMapper {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .apiKeyStored(user.getApiKey() != null)
+                .apiKeyStored(user.getApiKey() != null && !user.getApiKey().isEmpty())
                 .localeCurrency(user.getLocaleCurrency())
                 .build();
     }
