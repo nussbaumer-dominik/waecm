@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import NewPayment from "../components/NewPayment";
 import QrCode from "../components/QrCode";
 import PaymentSuccess from "../components/PaymentSuccess";
@@ -13,14 +13,20 @@ export default function PaymentPage(props) {
   const [paymentInfo, setPaymentInfo] = useState({
     amount: "",
     description: "",
+    currency: "EUR",
     state: "newPayment"
   })
+
+  useEffect(() => {
+    setPaymentInfo({...paymentInfo, currency: props.state.dbUser.localCurrency})
+  }, [paymentInfo, props.state.dbUser.localCurrency]);
 
   switch (paymentInfo.state) {
     case "newPayment":
       return (
         <NewPayment paymentInfo={paymentInfo}
                     setPaymentInfo={setPaymentInfo}
+                    api={props.api}
                     rates={props.state.rates}/>
       );
     case "qrCode":

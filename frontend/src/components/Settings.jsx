@@ -1,26 +1,31 @@
 import * as React from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
-import {useState} from "react";
 
-export default function Settings(props) {
-  if (props.user == null) {
+export default function Settings({state, setState, api, addUser}) {
+  if (state.user == null) {
     window.location = "/";
   }
 
-  const [settings, setSettings] = useState({
-    apiKey: "",
-    localCurrency: null,
-  })
-
   const handleKeyChange = event => {
     if (event.target.value.length <= 30) {
-      props.setSettings({...settings, apiKey: event.target.value});
+      state.settings.apiKey = event.target.value;
+      setState({...state.settings});
     }
+  }
+
+  const handleCurrencyChange = event => {
+    state.settings.localCurrency = event.target.value;
+    setState({...state.settings});
   }
 
   const handleSubmit = event => {
     event.preventDefault();
-    // TODO: do something
+    if (state.settings.apiKey !== "****") {
+      api.changeApiKey(state.settings.apiKey);
+    }
+
+    api.changeCurrency(state.settings.localCurrency)
+      .then(() => addUser());
   }
 
   return (
@@ -35,14 +40,15 @@ export default function Settings(props) {
                   <Form.Control type="text"
                                 name="apiKey"
                                 maxLength="30"
-                                value={settings.apiKey}
+                                value={state.settings.apiKey}
                                 onChange={handleKeyChange}/>
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>Lokale Währung</Form.Label>
-                  <Form.Select>
-                    {Object.entries(props.rates).map(([key, rateObject], index) => (
+                  <Form.Select value={state.settings.localCurrency} onChange={handleCurrencyChange}>
+                    <option value={""}>Keine</option>
+                    {Object.entries(state.rates).map(([key, rateObject], index) => (
                       <option value={key.substring(3)} key={key}>{key.substring(3)}</option>
                     ))}
                   </Form.Select>

@@ -26,23 +26,30 @@ class App extends Component {
     this.renewToken = () => {
       this.authService
         .renewToken()
-        .then(user => {
+        .then(() => {
           toast.success("Token has been successfully renewed.");
           this.getUser();
+          this.addUser();
         })
         .catch(error => {
           toast.error(error);
         });
     };
 
-    this.addUser = (token) => {
+    this.addUser = () => {
       try {
-        this.apiService.addUser(token).then(res => {
-          if (res != null) {
-            this.setState({dbUser: res});
-            toast.success('Api returned: ' + JSON.stringify(res.data));
-          }
-        });
+        this.apiService.addUser()
+          .then(res => {
+            if (res != null) {
+              this.setState({dbUser: res.data});
+              const settings = {
+                apiKey: this.state.dbUser.apiKey,
+                localCurrency: this.state.dbUser.localCurrency
+              }
+              this.setState({settings})
+              toast.success('Api returned: ' + JSON.stringify(res.data));
+            }
+          });
       } catch (e) {
         toast.error(e);
       }
@@ -59,17 +66,6 @@ class App extends Component {
     this.logout = async () => {
       await this.authService.logout();
     };
-
-    this.initiatePayment = async () => {
-      try {
-        const res = await this.apiService.initiatePayment();
-        let data = await res.json();
-        this.setState({payment: data.data});
-        toast.success('Api returned: ' + data.data);
-      } catch (e) {
-        toast.error(e);
-      }
-    }
 
     this.getHistory = async () => {
       try {
@@ -108,15 +104,15 @@ class App extends Component {
   componentDidMount() {
     this.authService.getUser()
       .then(user => {
-      if (user) {
-        toast.success("User has been loaded from store.");
-        this.addUser(user.access_token);
-        this.getRates();
-      } else {
-        toast.info("You are not logged in.");
-      }
-      this.setState({user});
-    });
+        if (user) {
+          toast.success("User has been loaded from store.");
+          this.addUser();
+          this.getRates();
+        } else {
+          toast.info("You are not logged in.");
+        }
+        this.setState({user});
+      });
   }
 
   render() {
@@ -140,8 +136,9 @@ class App extends Component {
                                                              api={this.apiService}/>}/>
                 <Route path="/history" element={<History user={this.state.user}
                                                          api={this.apiService}/>}/>
-                <Route path="/settings" element={<Settings user={this.state.user}
-                                                           rates={this.state.rates}
+                <Route path="/settings" element={<Settings state={this.state}
+                                                           setState={this.setState}
+                                                           addUser={this.addUser}
                                                            api={this.apiService}/>}/>
                 <Route path="/profile" element={<Profile user={this.state.user}
                                                          getUser={this.getUser}/>}/>

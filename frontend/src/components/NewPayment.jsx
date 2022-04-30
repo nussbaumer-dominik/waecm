@@ -5,13 +5,9 @@ import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
 export default function NewPayment(props) {
 
   const handleAmountChange = event => {
-    if (event.target.value !== null && event.target.value !== undefined && !isNaN(event.target.value)) {
-      const parsedValue = parseFloat(event.target.value);
-      if (isNaN(parsedValue)) {
-        props.setPaymentInfo({...props.paymentInfo, amount: 0});
-      } else {
-        props.setPaymentInfo({...props.paymentInfo, amount: parsedValue});
-      }
+    const parsedValue = parseFloat(event.target.value);
+    if (parsedValue !== null && parsedValue !== undefined && !isNaN(parsedValue)) {
+      props.setPaymentInfo({...props.paymentInfo, amount: parsedValue});
     } else {
       props.setPaymentInfo({...props.paymentInfo, amount: 0});
     }
@@ -30,7 +26,17 @@ export default function NewPayment(props) {
       return;
     }
 
-    props.setPaymentInfo({...props.paymentInfo, state: "qrCode"});
+    const body = {
+      amount: props.paymentInfo.amount,
+      description: props.paymentInfo.debugPort,
+      currency: props.paymentInfo.currency
+    };
+
+    props.api.initiatePayment(JSON.stringify(body))
+      .then(res => {
+        console.log(res);
+        props.setPaymentInfo({...props.paymentInfo, state: "qrCode"});
+      });
   }
 
   return (
@@ -44,13 +50,13 @@ export default function NewPayment(props) {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Betrag (in €)</Form.Label>
+                  <Form.Label>Betrag (in {props.paymentInfo.currency})</Form.Label>
                   <Form.Control type="text"
                                 name="amount"
                                 value={props.paymentInfo.amount}
                                 onChange={handleAmountChange}/>
                   <Form.Text
-                    className="text-muted float-right">{convertBTCtoSatoshi(props.rates, props.paymentInfo.amount).toFixed(2)} SAT</Form.Text>
+                    className="text-muted float-right">{convertBTCtoSatoshi(props.rates, props.paymentInfo).toFixed(2)} SAT</Form.Text>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
