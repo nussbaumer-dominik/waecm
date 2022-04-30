@@ -60,7 +60,7 @@ public class UserController {
     @PostMapping("/apiKey")
     public void setApiKey(Authentication authUser, @RequestBody String apiKey) {
         LOGGER.info("POST " + BASE_URL + "/apiKey " + apiKey);
-        if (apiKey == null || apiKey.isEmpty())
+        if (apiKey == null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "API key must not be null or empty");
 
         User user = userService.loadUser(authUser);
