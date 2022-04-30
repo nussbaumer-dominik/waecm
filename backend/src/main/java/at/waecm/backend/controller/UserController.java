@@ -72,7 +72,7 @@ public class UserController {
     @GetMapping("/localCurrency")
     public String getLocalCurrency(Authentication authUser) {
         LOGGER.info("GET " + BASE_URL + "/localCurrency");
-        return userService.loadUser(authUser).getLocaleCurrency();
+        return userService.loadUser(authUser).getLocalCurrency();
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -82,7 +82,7 @@ public class UserController {
         if (localCurrency == null || localCurrency.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Location currency must not be null or empty");
         User user = userService.loadUser(authUser);
-        user.setLocaleCurrency(localCurrency);
+        user.setLocalCurrency(localCurrency);
         userRepository.save(user);
     }
 }

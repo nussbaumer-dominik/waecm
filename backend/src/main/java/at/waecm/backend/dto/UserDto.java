@@ -2,7 +2,6 @@ package at.waecm.backend.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 
 @Data
@@ -12,5 +11,5 @@ public class UserDto {
     private String id;
     private String name;
     private boolean apiKeyStored;
-    private String localeCurrency;
+    private String localCurrency;
 }

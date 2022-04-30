@@ -12,7 +12,7 @@ public class UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .apiKeyStored(user.getApiKey() != null && !user.getApiKey().isEmpty())
-                .localeCurrency(user.getLocaleCurrency())
+                .localCurrency(user.getLocalCurrency())
                 .build();
     }
 }
