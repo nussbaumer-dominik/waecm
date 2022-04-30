@@ -42,9 +42,8 @@ class App extends Component {
           .then(res => {
             if (res != null) {
               this.setState({dbUser: res.data});
-              const key = res.data.apiKeyStored ? "****" : "";
               const settings = {
-                apiKey: key,
+                apiKey: res.data.apiKeyStored ? "****" : "",
                 localCurrency: res.data.localCurrency
               }
               this.setState({settings})
