@@ -7,11 +7,8 @@ export default function Settings({state, setSettings, api, addUser}) {
   }
 
   const handleKeyChange = event => {
-    console.log("key pressed");
-    if (event.target.value.length <= 30) {
-      state.settings.apiKey = event.target.value;
-      setSettings({...state.settings});
-    }
+    state.settings.apiKey = event.target.value;
+    setSettings({...state.settings});
   }
 
   const handleCurrencyChange = event => {
@@ -40,7 +37,6 @@ export default function Settings({state, setSettings, api, addUser}) {
                   <Form.Label>Opennode Api-Key</Form.Label>
                   <Form.Control type="text"
                                 name="apiKey"
-                                maxLength="30"
                                 value={state.settings.apiKey}
                                 onChange={handleKeyChange}/>
                 </Form.Group>
