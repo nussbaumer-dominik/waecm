@@ -28,7 +28,11 @@ export class ApiService {
     return this.authService.getUser().then(user => {
       if (user && user.access_token) {
         return this._getApi(user.access_token, "user/loggedIn").catch(error => {
-          console.log(error);
+          if (error.response.status === 401) {
+            return this.authService.renewToken().then(renewedUser => {
+              return this._getApi(renewedUser.access_token, "user/loggedIn");
+            });
+          }
           throw error;
         });
       } else if (user) {
