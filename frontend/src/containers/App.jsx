@@ -98,10 +98,8 @@ class App extends Component {
     this.state = {
       user: {},
       dbUser: {},
-      history: {},
       settings: {},
       rates: {},
-      payment: {}
     };
   }
 

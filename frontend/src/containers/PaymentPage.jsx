@@ -18,9 +18,7 @@ export default function PaymentPage(props) {
     payReq: ""
   })
 
-  const useMountEffect = func => useEffect(func, []);
-
-  useMountEffect(() => {
+  useEffect(() => {
     setPaymentInfo({...paymentInfo, currency: props.state.dbUser.localCurrency})
   });
 
