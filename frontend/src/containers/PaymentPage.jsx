@@ -14,7 +14,8 @@ export default function PaymentPage(props) {
     amount: "",
     description: "",
     currency: "",
-    state: "newPayment"
+    state: "newPayment",
+    payReq: ""
   })
 
   const useMountEffect = func => useEffect(func, []);

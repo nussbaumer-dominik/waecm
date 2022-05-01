@@ -13,6 +13,7 @@ import {toast} from "react-toastify";
 import {Col, Container, Row} from "react-bootstrap";
 import Profile from "../components/Profile";
 import axios from "axios";
+import DbUserContext from "../contexts/DbUserContext";
 
 class App extends Component {
 
@@ -100,7 +101,8 @@ class App extends Component {
       dbUser: {},
       history: {},
       settings: {},
-      rates: {}
+      rates: {},
+      payment: {}
     };
   }
 
@@ -139,6 +141,7 @@ class App extends Component {
                                                      state={this.state}
                                                      getRates={this.getRates}/>}/>
                 <Route path="/payment" element={<PaymentPage state={this.state}
+                                                             setState={this.setState}
                                                              api={this.apiService}/>}/>
                 <Route path="/history" element={<History user={this.state.user}
                                                          api={this.apiService}/>}/>

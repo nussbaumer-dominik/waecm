@@ -5,12 +5,21 @@ import QRCodeSVG from "qrcode.react";
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
 import {toast} from "react-toastify";
 import copy from "../copy.svg";
+import {useEffect} from "react";
 
 export default function QrCode({rates, paymentInfo, setPaymentInfo}) {
 
   const handleNext = () => {
     setPaymentInfo({...paymentInfo, state: "success"});
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Interval triggered");
+      // TODO: poll the backend
+    },2000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Container>
@@ -29,11 +38,11 @@ export default function QrCode({rates, paymentInfo, setPaymentInfo}) {
               {paymentInfo.description}
             </h3>
           </Row>
-          <Row className="justify-content-center">
-            <p className="text-muted m-0">
-              {paymentInfo.description}
-            </p>
-            <CopyToClipboard text={paymentInfo.description}
+          <Row className="justify-content-center align-items-center">
+            <div className="text-muted m-0" style={payreqStyle}>
+              {paymentInfo.payReq}
+            </div>
+            <CopyToClipboard text={paymentInfo.payReq}
             onCopy={() => toast.success("In die Zwischenablage kopiert.", {position: toast.POSITION.TOP_CENTER})}>
               <Button variant="outline-secondary">
                 <img src={copy} alt="copy icon"/>
@@ -44,4 +53,12 @@ export default function QrCode({rates, paymentInfo, setPaymentInfo}) {
       </Row>
     </Container>
   );
+}
+
+const payreqStyle = {
+  color: "#212529",
+  maxWidth: "300px",
+  textOverflow: "ellipsis",
+  overflowX: "hidden",
+  height: "fit-content",
 }
