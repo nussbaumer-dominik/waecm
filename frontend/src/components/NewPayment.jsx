@@ -1,13 +1,8 @@
 import * as React from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
-import {useContext} from "react";
-import {DbUserContext} from "../contexts/DbUserContext";
 
 export default function NewPayment(props) {
-
-  const dbUser = useContext(DbUserContext);
-  console.log(dbUser);
 
   const handleAmountChange = event => {
     const parsedValue = parseFloat(event.target.value);
@@ -40,6 +35,7 @@ export default function NewPayment(props) {
     props.api.initiatePayment(JSON.stringify(body))
       .then(res => {
         console.log(res);
+        props.paymentInfo.amount = res.data.data.amount;
         props.paymentInfo.payReq = res.data.data.lightning_invoice.payreq;
         props.paymentInfo.state = "qrCode";
         props.setPaymentInfo({...props.paymentInfo});
