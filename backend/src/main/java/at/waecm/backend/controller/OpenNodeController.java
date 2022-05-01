@@ -55,9 +55,7 @@ public class OpenNodeController {
                         "\"ttl\":1440," +
                         "\"description\":\"" + createChargeDto.getDescription() + "\"," +
                         "\"amount\":" + createChargeDto.getAmount() + "," +
-                        "\"currency\":\"" + createChargeDto.getCurrency() + "\"," +
-                        "\"callback_url\":\"localhost:4444\"," +
-                        "\"success_url\":\"localhost:4444\"}"))
+                        "\"currency\":\"" + createChargeDto.getCurrency() + "\"}"))
                 .build();
         HttpResponse<String> response = null;
         try {
