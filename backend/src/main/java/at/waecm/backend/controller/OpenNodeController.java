@@ -114,18 +114,4 @@ public class OpenNodeController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Body is empty");
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/history")
-    public List<ChargeInfoDto> getPaymentHistory(Authentication authUser) {
-        User user = userService.loadUser(authUser);
-        List<Payment> payments = paymentRepository.findAllByUserId(user.getId());
-        List<ChargeInfoDto> chargeInfoDtos = new ArrayList<>();
-        chargeInfoDtos = payments.stream().map(m -> m.getChargeInfo()).toList();
-        /*
-        for (Payment p : payments) {
-            chargeInfoDtos.add(p.getChargeInfo());
-        }*/
-        return chargeInfoDtos;
-    }
-
 }
