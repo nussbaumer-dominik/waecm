@@ -13,7 +13,6 @@ import {toast} from "react-toastify";
 import {Col, Container, Row} from "react-bootstrap";
 import Profile from "../components/Profile";
 import axios from "axios";
-import DbUserContext from "../contexts/DbUserContext";
 
 class App extends Component {
 
