@@ -5,8 +5,9 @@ import at.waecm.backend.dto.ChargeInfoDataDto;
 import at.waecm.backend.dto.ChargeInfoDto;
 import at.waecm.backend.dto.CreateChargeDto;
 import at.waecm.backend.dto.PaymentStatus;
+import at.waecm.backend.model.Payment;
 import at.waecm.backend.model.User;
-import at.waecm.backend.repository.ChargeInfoRepository;
+import at.waecm.backend.repository.PaymentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -23,19 +24,21 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "openNode")
 public class OpenNodeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final String BASE_URL = "/openNode";
-    private final ChargeInfoRepository chargeInfoRepository;
+    private final PaymentRepository paymentRepository;
     private final UserService userService;
 
     @Autowired
-    public OpenNodeController(UserService userService, ChargeInfoRepository chargeInfoRepository) {
+    public OpenNodeController(UserService userService, PaymentRepository paymentRepository) {
         this.userService = userService;
-        this.chargeInfoRepository = chargeInfoRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -99,7 +102,8 @@ public class OpenNodeController {
             try {
                 ChargeInfoDto chargeInfoDto = (new ObjectMapper().readValue(response.body(), ChargeInfoDataDto.class)).getData();
                 if (chargeInfoDto.getStatus() == PaymentStatus.paid) {
-                    chargeInfoRepository.save(chargeInfoDto);
+                    Payment payment = new Payment(user.getId(), chargeInfoDto);
+                    paymentRepository.save(payment);
                 }
                 return chargeInfoDto;
             } catch (JsonProcessingException e) {
@@ -112,8 +116,16 @@ public class OpenNodeController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/history")
-    public void getPaymentHistory(Authentication authUser) {
+    public List<ChargeInfoDto> getPaymentHistory(Authentication authUser) {
         User user = userService.loadUser(authUser);
+        List<Payment> payments = paymentRepository.findAllByUserId(user.getId());
+        List<ChargeInfoDto> chargeInfoDtos = new ArrayList<>();
+        chargeInfoDtos = payments.stream().map(m -> m.getChargeInfo()).toList();
+        /*
+        for (Payment p : payments) {
+            chargeInfoDtos.add(p.getChargeInfo());
+        }*/
+        return chargeInfoDtos;
     }
 
 }
