@@ -30,6 +30,7 @@ export default function Header(props) {
     setHidden(!hidden)
   }
 
+  // TODO: close hamburger menu when link is pressed
   return (
     <header className="py-3 px-5 flex align-items-center justify-content-between relative lg:static"
             style={{minHeight: "80px"}}>
