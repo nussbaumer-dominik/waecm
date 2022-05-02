@@ -1,11 +1,21 @@
 import * as React from "react";
-import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {Card, Col, Container, Form, Row} from "react-bootstrap";
 import {toast, ToastContainer} from "react-toastify";
+import {InputText} from "primereact/inputtext";
+import {Dropdown} from 'primereact/dropdown';
+import {Button} from 'primereact/button';
 
 export default function Settings({state, setSettings, api, addUser, logout}) {
   if (state.user == null) {
     window.location = "/";
   }
+
+  const rates = Object.entries(state.rates).map(([key]) => {
+    return {
+      label: key.substring(3),
+      value: key.substring(3)
+    }
+  });
 
   const handleKeyChange = event => {
     state.settings.apiKey = event.target.value;
@@ -30,7 +40,7 @@ export default function Settings({state, setSettings, api, addUser, logout}) {
   }
 
   return (
-    <Container>
+    <div className="lg:px-7">
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -40,46 +50,29 @@ export default function Settings({state, setSettings, api, addUser, logout}) {
         rtl={false}
         pauseOnHover/>
 
-      <Row className="justify-content-center">
-        <Col className="col-lg-8 col-md-10 col-sm-12">
-          <Card>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Opennode Api-Key</Form.Label>
-                  <Form.Control type="text"
-                                name="apiKey"
-                                value={state.settings.apiKey}
-                                onChange={handleKeyChange}/>
-                </Form.Group>
+      <div className="col flex justify-content-center">
+        <div className="md:w-6 sm:w-full p-3 border border-round">
+          <div className="field">
+            <label htmlFor="key">Opennode Api-Key</label>
+            <InputText id="key"
+                       className="p-inputtext inputfield w-full"
+                       value={state.settings.apiKey}
+                       onChange={handleKeyChange}/>
+          </div>
+          <div className="field">
+            <label htmlFor="currency">Lokale Währung</label>
+            <Dropdown className="inputfield w-full"
+                      value={state.settings.localCurrency} options={rates} onChange={handleCurrencyChange}/>
+          </div>
+          <Button label="Speichern" onClick={handleSubmit}/>
+        </div>
+      </div>
 
-                <Form.Group>
-                  <Form.Label>Lokale Währung</Form.Label>
-                  <Form.Control as="select" value={state.settings.localCurrency}
-                                onChange={handleCurrencyChange}>
-                    <option value={""}>Keine</option>
-                    {Object.entries(state.rates).map(([key, rateObject], index) => (
-                      <option value={key.substring(3)} key={key}>{key.substring(3)}</option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="justify-self-center mt-3">
-                  Speichern
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row className="justify-content-center mt-4">
-        <Col className="col-auto">
-          <Button onClick={logout}>
-            Abmelden
-          </Button>
-        </Col>
-      </Row>
-    </Container>
+      <div className="grid mt-7">
+        <div className="col flex justify-content-center">
+          <Button label="Abmelden" onClick={logout}/>
+        </div>
+      </div>
+    </div>
   );
 }

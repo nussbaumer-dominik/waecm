@@ -1,6 +1,9 @@
 import * as React from "react";
-import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {Card, Col, Container, Form, Row} from "react-bootstrap";
 import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
+import {InputText} from "primereact/inputtext";
+import {Button} from "primereact/button";
+
 
 export default function NewPayment(props) {
 
@@ -47,16 +50,39 @@ export default function NewPayment(props) {
   }
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col className="col-lg-8 col-md-10 col-sm-12">
-          <Card>
-            <Card.Header className="text-center">
-              Neue Zahlung
-            </Card.Header>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
+    <div className="col flex justify-content-center">
+      <div className="md:w-6 sm:w-full p-3 border border-round">
+        <h2 className="text-center">Neue Zahlung</h2>
+        <div className="field">
+          <label htmlFor="amount">Betrag</label>
+          <div className="p-inputgroup">
+            <span className="p-inputgroup-addon">
+                {props.paymentInfo.currency}
+            </span>
+
+            <InputText id="amount"
+                       className="p-inputtext inputfield w-full"
+                       value={props.paymentInfo.amount}
+                       onChange={handleAmountChange}/>
+          </div>
+        </div>
+
+        <div className="field">
+          <label htmlFor="key">Beschreibung(Optional)</label>
+          <InputText id="key"
+                     maxLength="30"
+                     className="p-inputtext inputfield w-full"
+                     value={props.paymentInfo.description}
+                     onChange={handleDescriptionChange}/>
+        </div>
+        <Button label="Bezahlen" onClick={handleSubmit}/>
+      </div>
+    </div>
+  );
+}
+
+/*
+<Form.Group className="mb-3">
                   <Form.Label>Betrag (in {props.paymentInfo.currency})</Form.Label>
                   <Form.Control type="text"
                                 name="amount"
@@ -77,14 +103,4 @@ export default function NewPayment(props) {
                   <Form.Text
                     className="text-muted float-right">Noch {30 - props.paymentInfo.description.length} Zeichen</Form.Text>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                  Bezahlen
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
-}
+ */
