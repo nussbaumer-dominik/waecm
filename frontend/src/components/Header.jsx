@@ -39,7 +39,7 @@ export default function Header(props) {
         <i className="pi pi-bars text-4xl"></i>
         <span className="p-ink" style={{height: "34px", width: "34px", top: "7px", left: "1px"}}></span>
       </a>
-      <div className={hidden ? "hidden" : ""}>
+      <div className={hidden ? "hidden lg:block md:block" : ""}>
         <div className="align-items-center flex-grow-1 justify-content-between lg:flex absolute lg:static w-full bg-gray-900 left-0 top-100 z-1">
           <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row">
             <li>

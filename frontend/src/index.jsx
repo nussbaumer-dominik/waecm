@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-app-polyfill/ie11';
 import 'core-js';
