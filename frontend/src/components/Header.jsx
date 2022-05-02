@@ -1,28 +1,48 @@
 import * as React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
-import DropdownToggle from "react-bootstrap/DropdownToggle";
-import DropdownMenu from "react-bootstrap/DropdownMenu";
-import DropdownItem from "react-bootstrap/DropdownItem";
+import {createRef} from "react";
+import {NavLink, useNavigate} from "react-router-dom";
 import logo from "../logo.svg";
+import {Avatar} from "primereact/avatar";
+import {Menu} from "primereact/menu";
 
 export default function Header(props) {
+  const profileMenu = createRef();
+  const navigate = useNavigate();
+
+  const profileMenuModel = [
+    {
+      label: "Profil",
+      command: () => {
+        navigate("/profile")
+      }
+    },
+    {
+      label: "Abmelden",
+      command: () => {
+        props.logout()
+      }
+    }
+  ]
+
   return (
     <header className="py-3 px-5 flex align-items-center justify-content-between relative lg:static"
-         style={{minHeight: "80px"}}>
+            style={{minHeight: "80px"}}>
       <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6"/>
-      <div className="align-items-center flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full bg-gray-900 left-0 top-100 z-1">
+      <div
+        className="align-items-center flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full bg-gray-900 left-0 top-100 z-1">
         <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row">
           <li>
-            <NavLink to="/" className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
-              activeClassName="active">
+            <NavLink to="/"
+                     className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+                     activeclassname="active">
               <i className="pi pi-home mr-2"></i>
               <span>Home</span>
             </NavLink>
           </li>
           {props.user != null &&
             <li>
-              <NavLink to="/payment" className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+              <NavLink to="/payment"
+                       className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
                 <i className="pi pi-money-bill mr-2"></i>
                 <span>Zahlung</span>
               </NavLink>
@@ -30,7 +50,8 @@ export default function Header(props) {
           }
           {props.user != null &&
             <li>
-              <NavLink to="/history" className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+              <NavLink to="/history"
+                       className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
                 <i className="pi pi-book mr-2"></i>
                 <span>Historie</span>
               </NavLink>
@@ -59,7 +80,22 @@ export default function Header(props) {
         }
 
         {props.user != null && props.user.profile != null &&
-          <Dropdown className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row border-top-1 border-gray-800 lg:border-top-none">
+          <div>
+            <Menu model={profileMenuModel}
+                  popup ref={profileMenu}/>
+            <Avatar image={props.user.profile.picture}
+                    shape="circle"
+                    onClick={(event) => profileMenu.current.toggle(event)}/>
+          </div>
+        }
+      </div>
+    </header>
+  )
+}
+
+/*
+
+<Dropdown className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row border-top-1 border-gray-800 lg:border-top-none">
             <DropdownToggle variant="tertiary">
               <img src={props.user.profile.picture} alt="avatar" width="32" height="32" className="rounded-circle" />
             </DropdownToggle>
@@ -74,13 +110,8 @@ export default function Header(props) {
               <DropdownItem onClick={props.logout}>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-        }
-      </div>
-    </header>
-  )
-}
 
-/*
+
 
   return (
     <header className="mb-3 border-bottom">

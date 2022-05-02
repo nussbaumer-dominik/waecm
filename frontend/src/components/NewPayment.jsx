@@ -68,7 +68,7 @@ export default function NewPayment(props) {
         </div>
 
         <div className="field">
-          <label htmlFor="key">Beschreibung(Optional)</label>
+          <label htmlFor="key">Beschreibung (Optional)</label>
           <InputText id="key"
                      maxLength="30"
                      className="p-inputtext inputfield w-full"
@@ -80,27 +80,3 @@ export default function NewPayment(props) {
     </div>
   );
 }
-
-/*
-<Form.Group className="mb-3">
-                  <Form.Label>Betrag (in {props.paymentInfo.currency})</Form.Label>
-                  <Form.Control type="text"
-                                name="amount"
-                                value={props.paymentInfo.amount}
-                                onChange={handleAmountChange}/>
-                  <Form.Text
-                    className="text-muted float-right">{convertBTCtoSatoshi(props.rates, props.paymentInfo).toFixed(2)} SAT</Form.Text>
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Beschreibung <span className="text-muted">(Optional)</span></Form.Label>
-                  <Form.Control type="text"
-                                name="description"
-                                placeholder="Beschreibung"
-                                maxLength="30"
-                                value={props.paymentInfo.description}
-                                onChange={handleDescriptionChange}/>
-                  <Form.Text
-                    className="text-muted float-right">Noch {30 - props.paymentInfo.description.length} Zeichen</Form.Text>
-                </Form.Group>
- */
