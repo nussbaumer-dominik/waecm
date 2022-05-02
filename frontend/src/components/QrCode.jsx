@@ -1,13 +1,12 @@
 import * as React from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
-import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
 import QRCodeSVG from "qrcode.react";
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
-import {toast} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import copy from "../copy.svg";
 import {useEffect} from "react";
 
-export default function QrCode({rates, paymentInfo, setPaymentInfo}) {
+export default function QrCode({paymentInfo, setPaymentInfo, api}) {
 
   const handleNext = () => {
     setPaymentInfo({...paymentInfo, state: "success"});
@@ -15,30 +14,49 @@ export default function QrCode({rates, paymentInfo, setPaymentInfo}) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Interval triggered");
-      // TODO: poll the backend
+      api.getChargeInfo(paymentInfo.chargeId)
+        .then(res => {
+          console.log(res);
+          if (res.data.status === "paid") handleNext();
+        });
     },2000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnHover/>
       <Row>
         <Col>
           <Row className="justify-content-center">
-            <h2 className="text-center">{convertBTCtoSatoshi(rates, paymentInfo)} SAT</h2>
+            <div>
+              <h2 className="text-center mb-0">{paymentInfo.amount} SAT</h2>
+              <span className="badge badge-danger w-100">{paymentInfo.fee} SAT Gebühren</span>
+            </div>
           </Row>
           <Row>
+
+          </Row>
+          <Row className="mt-4">
             <Col className="d-flex justify-content-center">
               <QRCodeSVG value={"https://www.spritkenig.com"} size={256}/>
             </Col>
           </Row>
-          <Row className="justify-content-center">
-            <h3>
-              {paymentInfo.description}
-            </h3>
+          <Row className="justify-content-center mt-3">
+            <Col className="col-10">
+              <p>
+                {paymentInfo.description}
+              </p>
+            </Col>
           </Row>
-          <Row className="justify-content-center align-items-center">
+          <Row className="justify-content-center align-items-center mt-4">
             <div className="text-muted m-0" style={payreqStyle}>
               {paymentInfo.payReq}
             </div>

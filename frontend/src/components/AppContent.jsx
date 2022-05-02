@@ -31,11 +31,11 @@ export default class AppContent extends Component {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
         pauseOnHover/>
 
       <Buttons renewToken={this.props.renewToken}
                getHealth={this.getHealth}
+               getHistory={this.props.getHistory}
                user={this.props.state.user}
       />
       {this.props.state.user == null &&

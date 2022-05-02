@@ -31,3 +31,7 @@
 #toast-container > div {
   opacity: 1;
 }
+
+.active {
+  background: #27272A;
+}

@@ -4,8 +4,83 @@ import { Dropdown } from "react-bootstrap";
 import DropdownToggle from "react-bootstrap/DropdownToggle";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
 import DropdownItem from "react-bootstrap/DropdownItem";
+import logo from "../logo.svg";
 
 export default function Header(props) {
+  return (
+    <header className="py-3 px-5 flex align-items-center justify-content-between relative lg:static"
+         style={{minHeight: "80px"}}>
+      <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6"/>
+      <div className="align-items-center flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full bg-gray-900 left-0 top-100 z-1">
+        <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row">
+          <li>
+            <NavLink to="/" className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+              activeClassName="active">
+              <i className="pi pi-home mr-2"></i>
+              <span>Home</span>
+            </NavLink>
+          </li>
+          {props.user != null &&
+            <li>
+              <NavLink to="/payment" className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                <i className="pi pi-money-bill mr-2"></i>
+                <span>Zahlung</span>
+              </NavLink>
+            </li>
+          }
+          {props.user != null &&
+            <li>
+              <NavLink to="/history" className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                <i className="pi pi-book mr-2"></i>
+                <span>Historie</span>
+              </NavLink>
+            </li>
+          }
+          {props.user != null &&
+            <li>
+              <NavLink to="/settings"
+                       className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                <i className="pi pi-cog mr-2"></i>
+                <span>Einstellungen</span>
+              </NavLink>
+            </li>
+          }
+        </ul>
+
+        {props.user == null &&
+          <div>
+            <button type="button" className="p-button p-component"
+                    onClick={props.login}>
+              <span className="p-button-label p-c">
+                Login
+              </span>
+            </button>
+          </div>
+        }
+
+        {props.user != null && props.user.profile != null &&
+          <Dropdown className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row border-top-1 border-gray-800 lg:border-top-none">
+            <DropdownToggle variant="tertiary">
+              <img src={props.user.profile.picture} alt="avatar" width="32" height="32" className="rounded-circle" />
+            </DropdownToggle>
+
+            <DropdownMenu>
+              <DropdownItem>
+                <Link to="profile">
+                  {props.user.profile.name}
+                </Link>
+              </DropdownItem>
+              <Dropdown.Divider />
+              <DropdownItem onClick={props.logout}>Logout</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        }
+      </div>
+    </header>
+  )
+}
+
+/*
 
   return (
     <header className="mb-3 border-bottom">
@@ -68,8 +143,7 @@ export default function Header(props) {
       </div>
     </header>
   );
-}
 
 const linkStyle = {
   color: "#212529"
-}
+}*/

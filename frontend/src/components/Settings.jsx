@@ -1,7 +1,8 @@
 import * as React from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
 
-export default function Settings({state, setSettings, api, addUser}) {
+export default function Settings({state, setSettings, api, addUser, logout}) {
   if (state.user == null) {
     window.location = "/";
   }
@@ -24,10 +25,21 @@ export default function Settings({state, setSettings, api, addUser}) {
 
     api.changeCurrency(state.settings.localCurrency)
       .then(() => addUser());
+
+    toast("The settings have been updated");
   }
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnHover/>
+
       <Row className="justify-content-center">
         <Col className="col-lg-8 col-md-10 col-sm-12">
           <Card>
@@ -58,6 +70,14 @@ export default function Settings({state, setSettings, api, addUser}) {
               </Form>
             </Card.Body>
           </Card>
+        </Col>
+      </Row>
+
+      <Row className="justify-content-center mt-4">
+        <Col className="col-auto">
+          <Button onClick={logout}>
+            Abmelden
+          </Button>
         </Col>
       </Row>
     </Container>

@@ -12,15 +12,17 @@ export default function PaymentPage(props) {
 
   const [paymentInfo, setPaymentInfo] = useState({
     amount: "",
+    fee: "",
     description: "",
     currency: "",
     state: "newPayment",
-    payReq: ""
+    payReq: "",
+    id: "",
   })
 
   useEffect(() => {
-    setPaymentInfo({...paymentInfo, currency: props.state.dbUser.localCurrency})
-  });
+    setPaymentInfo({...paymentInfo, currency: props.state.dbUser?.localCurrency})
+  }, [props.state.dbUser, setPaymentInfo]);
 
   switch (paymentInfo.state) {
     case "newPayment":
@@ -34,7 +36,7 @@ export default function PaymentPage(props) {
       return (
         <QrCode paymentInfo={paymentInfo}
                 setPaymentInfo={setPaymentInfo}
-                rates={props.state.rates}/>
+                api={props.api}/>
       );
     case "success":
       return (

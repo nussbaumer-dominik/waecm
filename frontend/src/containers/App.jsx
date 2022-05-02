@@ -13,6 +13,11 @@ import {toast} from "react-toastify";
 import {Col, Container, Row} from "react-bootstrap";
 import Profile from "../components/Profile";
 import axios from "axios";
+import 'primereact/resources/themes/tailwind-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+import PaymentSuccess from "../components/PaymentSuccess";
 
 class App extends Component {
 
@@ -57,26 +62,15 @@ class App extends Component {
 
     this.getRates = () => {
       axios.get("https://api.opennode.com/v1/rates")
-        .then(rates => {
-          const data = rates.data.data;
-          this.setState({rates: data});
+        .then(res => {
+          const rates = res.data.data;
+          this.setState({rates});
         });
     }
 
     this.logout = async () => {
       await this.authService.logout();
     };
-
-    this.getHistory = async () => {
-      try {
-        const res = await this.apiService.getHistory();
-        let data = await res.json();
-        this.setState({history: data.data});
-        toast.success('Api returned: ' + data.data);
-      } catch (e) {
-        toast.error(e);
-      }
-    }
 
     this.getUser = () => {
       this.authService.getUser().then(user => {
@@ -122,39 +116,81 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header pageTitle="Bsp 2 Gruppe 08"
-                logoSrc={logo}
-                login={this.login}
-                logout={this.logout}
-                user={this.state.user}/>
-        <Container fluid>
-          <Row>
-            <Col>
-              <Routes>
-                <Route path="/" element={<AppContent apiService={this.apiService}
-                                                     getUser={this.getUser}
-                                                     renewToken={this.renewToken}
-                                                     state={this.state}
-                                                     getRates={this.getRates}/>}/>
-                <Route path="/payment" element={<PaymentPage state={this.state}
-                                                             setState={this.setState}
-                                                             api={this.apiService}/>}/>
-                <Route path="/history" element={<History user={this.state.user}
-                                                         api={this.apiService}/>}/>
-                <Route path="/settings" element={<Settings state={this.state}
-                                                           setSettings={this.setSettings}
-                                                           addUser={this.addUser}
+      <div className="min-h-screen flex flex-column">
+        <div className="bg-gray-900" style={{height: "200px"}}>
+          <Header pageTitle="Bsp 2 Gruppe 08"
+                  logoSrc={logo}
+                  login={this.login}
+                  logout={this.logout}
+                  user={this.state.user}/>
+        </div>
+        <div className="p-5 flex flex-column flex-auto" style={{marginTop: "-8rem"}}>
+          <div className="border-2 border-dashed surface-border border-round surface-section flex-auto">
+            <Routes>
+              <Route path="/" element={<AppContent apiService={this.apiService}
+                                                   getUser={this.getUser}
+                                                   renewToken={this.renewToken}
+                                                   getHistory={this.getHistory}
+                                                   state={this.state}
+                                                   getRates={this.getRates}/>}/>
+              <Route path="/payment" element={<PaymentPage state={this.state}
+                                                           setState={this.setState}
                                                            api={this.apiService}/>}/>
-                <Route path="/profile" element={<Profile user={this.state.user}
-                                                         getUser={this.getUser}/>}/>
-              </Routes>
-            </Col>
-          </Row>
-        </Container>
+              <Route path="/history" element={<History user={this.state.user}
+                                                       api={this.apiService}/>}/>
+              <Route path="/settings" element={<Settings state={this.state}
+                                                         setSettings={this.setSettings}
+                                                         addUser={this.addUser}
+                                                         logout={this.logout}
+                                                         api={this.apiService}/>}/>
+              <Route path="/profile" element={<Profile user={this.state.user}
+                                                       getUser={this.getUser}/>}/>
+              <Route path="success" element={<PaymentSuccess/>}/>
+            </Routes>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
 export default App;
+
+/*
+return (
+    <div className="App">
+      <Header pageTitle="Bsp 2 Gruppe 08"
+              logoSrc={logo}
+              login={this.login}
+              logout={this.logout}
+              user={this.state.user}/>
+      <Container fluid>
+        <Row>
+          <Col>
+            <Routes>
+              <Route path="/" element={<AppContent apiService={this.apiService}
+                                                   getUser={this.getUser}
+                                                   renewToken={this.renewToken}
+                                                   getHistory={this.getHistory}
+                                                   state={this.state}
+                                                   getRates={this.getRates}/>}/>
+              <Route path="/payment" element={<PaymentPage state={this.state}
+                                                           setState={this.setState}
+                                                           api={this.apiService}/>}/>
+              <Route path="/history" element={<History user={this.state.user}
+                                                       api={this.apiService}/>}/>
+              <Route path="/settings" element={<Settings state={this.state}
+                                                         setSettings={this.setSettings}
+                                                         addUser={this.addUser}
+                                                         logout={this.logout}
+                                                         api={this.apiService}/>}/>
+              <Route path="/profile" element={<Profile user={this.state.user}
+                                                       getUser={this.getUser}/>}/>
+              <Route path="success" element={<PaymentSuccess/>}/>
+            </Routes>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+ */

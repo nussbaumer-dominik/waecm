@@ -8,20 +8,18 @@ export class ApiService {
   }
 
   checkHealth() {
-    return this.authService.getUser().then(user => {
-      if (user && user.access_token) {
-        return this._getApi(user.access_token, "health").catch(error => {
-          console.log(error);
-          throw error;
-        });
-      } else if (user) {
-        return this.authService.renewToken().then(renewedUser => {
-          return this._getApi(renewedUser.access_token, "health");
-        });
-      } else {
-        throw new Error('user is not logged in');
-      }
-    });
+    const url = "health";
+    return this.getRequest(url);
+  }
+
+  getHistory() {
+    const url = "user/history";
+    return this.getRequest(url);
+  }
+
+  getChargeInfo(payReq) {
+    const url = `openNode/chargeInfo/${payReq}`;
+    return this.getRequest(url)
   }
 
   addUser() {
@@ -108,20 +106,20 @@ export class ApiService {
     });
   }
 
-  getHistory() {
+  getRequest(url) {
     return this.authService.getUser().then(user => {
       if (user && user.access_token) {
-        return this._getApi(user.access_token, "history").catch(error => {
+        return this._getApi(user.access_token, url).catch(error => {
           if (error.response.status === 401) {
             return this.authService.renewToken().then(renewedUser => {
-              return this._getApi(renewedUser.access_token, "history");
+              return this._getApi(renewedUser.access_token, url);
             });
           }
           throw error;
         });
       } else if (user) {
         return this.authService.renewToken().then(renewedUser => {
-          return this._getApi(renewedUser.access_token, "history");
+          return this._getApi(renewedUser.access_token, url);
         });
       } else {
         throw new Error('user is not logged in');

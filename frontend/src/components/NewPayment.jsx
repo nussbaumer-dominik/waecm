@@ -35,7 +35,11 @@ export default function NewPayment(props) {
     props.api.initiatePayment(JSON.stringify(body))
       .then(res => {
         console.log(res);
-        props.paymentInfo.amount = res.data.data.amount;
+        const fee = convertBTCtoSatoshi(props.rates, props.paymentInfo) - res.data.data.amount;
+        props.paymentInfo.fee = fee;
+        props.paymentInfo.chargeId = res.data.data.id;
+        props.paymentInfo.amount = res.data.data.amount - fee;
+        // Amount is now in SATs
         props.paymentInfo.payReq = res.data.data.lightning_invoice.payreq;
         props.paymentInfo.state = "qrCode";
         props.setPaymentInfo({...props.paymentInfo});
