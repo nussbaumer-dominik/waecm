@@ -17,8 +17,8 @@ services:
         container_name: 'waecm-2022-group-08-bsp-2-mongoDb'
         environment:
             - MONGO_INITDB_DATABASE=waecm-2022-group-08-bsp-2-mongoDb
-            - MONGO_INITDB_ROOT_USERNAME=weacm
-            - MONGO_INITDB_ROOT_PASSWORD=weacm
+            - MONGO_INITDB_ROOT_USERNAME=waecm
+            - MONGO_INITDB_ROOT_PASSWORD=waecm
         volumes:
             - ./mongoDb.js:/docker-entrypoint-initdb.d/mongoDb.js:ro
             - ./mongo-volume:/data/db
