@@ -1,5 +1,5 @@
 # WAECM 
-## Bsp 1 Gruppe 08
+## Bsp 2 Gruppe 08
 
 Stack: 
 
@@ -10,20 +10,27 @@ Stack:
 - Database: MongoDB
   - Ermöglicht schnelle Entwicklung und eine hohe Schema-Flexibilität.
 
-Wie haben zwei Container erstellt:
+Wie haben drei Container erstellt:
   - Ein Container agiert als Webserver und basiert auf dem offiziellen nginx Container, wo wir unsere React Komponenten hinzugefügt haben. Der Container gibt port 4444 nach außen frei.
   - Der zweite Container basiert auf openjdk:17-alpine und startet das Sprong-Boot Backend auf Port 8080 und gibt diesen auch nach außen frei.
+  - Der dritte Container ist ein MongoDB Datenbankserver mit den frigegebenen Ports 27017-27019
 
 Start der Container ist mittels docker-compose up möglich
-Die beiden Images wurden im Docker Hub hochgeladen und stehen dort offentlich zur verfügung
+Alle drei Images wurden im Docker Hub hochgeladen und stehen dort öffentlich zur verfügung
 
 Frontend:
-  - diason/waecm:waecm-2022-group-08-bsp-1-frontend
-  - DIGEST:sha256:8025b57a343c4a27f4e70dccfb0f6c6b3227c2fb029d94905c01b7db54841d89
+  - diason/waecm:waecm-2022-group-08-bsp-2-frontend
+  - Hash: sha256:414380fd246e2b8cd5e7c44de08e1bb9c6b4d33f71309a87d490b2bb23ba09b8 size: 1780
 
 Backend:
-  - diason/waecm:waecm-2022-group-08-bsp-1-backend
-  - DIGEST:sha256:288f633e8cb41680603fed7e375b06c12c8f55e2aefe2a3b574454e24a8da34d
+  - diason/waecm:waecm-2022-group-08-bsp-2-backend
+  - Hash: sha256:56accbe06c554424cfb4d2ae7d33c298535cc263dc2003558b76088ef4299bf5 size: 1163
+  
+Datenbank
+  - 
+  Hash:
+
+
 
 
 ## Getting started
