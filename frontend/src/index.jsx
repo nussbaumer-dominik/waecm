@@ -3,7 +3,7 @@ import 'react-app-polyfill/ie11';
 import 'core-js';
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import App from './containers/App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';

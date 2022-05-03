@@ -44,6 +44,6 @@ export default function PaymentPage(props) {
                         setPaymentInfo={setPaymentInfo}/>
       );
     default:
-      return (<Message variant="danger">Error</Message>);
+      return (<Message severity="error" text="Error"/>);
   }
 }
