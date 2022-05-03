@@ -104,7 +104,7 @@ public class OpenNodeController {
                 if (chargeInfoDto.getStatus() == PaymentStatus.paid) {
                     Optional<Payment> existingPayment = paymentRepository.findById(chargeInfoDto.getId());
                     if (!existingPayment.isPresent()) {
-                        Payment payment = new Payment(user.getId(), chargeInfoDto);
+                        Payment payment = new Payment(chargeInfoDto.getId(), user.getId(), chargeInfoDto);
                         paymentRepository.save(payment);
                     }
                 }
