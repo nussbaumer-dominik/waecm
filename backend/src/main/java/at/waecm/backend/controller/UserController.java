@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "user")
@@ -99,8 +97,12 @@ public class UserController {
         User user = userService.loadUser(authUser);
         List<Payment> payments = paymentRepository.findAllByUserId(user.getId());
         List<ChargeInfoDto> chargeInfoDtos = new ArrayList<>();
-        chargeInfoDtos = payments.stream().map(m -> m.getChargeInfo()).toList();
-        chargeInfoDtos.sort((ChargeInfoDto c1, ChargeInfoDto c2) -> (int) (c1.getCreated_at() - c2.getCreated_at()));
+        for (Payment p : payments) {
+            chargeInfoDtos.add(p.getChargeInfo());
+        }
+        //chargeInfoDtos = payments.stream().map(m -> m.getChargeInfo()).toList();
+        //Collections.reverse(chargeInfoDtos);
+        chargeInfoDtos.sort((ChargeInfoDto c1, ChargeInfoDto c2) -> (int) (c2.getCreated_at() - c1.getCreated_at()));
         return chargeInfoDtos;
     }
 }
