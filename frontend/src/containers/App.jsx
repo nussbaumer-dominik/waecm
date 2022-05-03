@@ -16,7 +16,6 @@ import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import PaymentSuccess from "../components/PaymentSuccess";
 
 class App extends Component {
 
@@ -144,7 +143,6 @@ class App extends Component {
                                                          api={this.apiService}/>}/>
               <Route path="/profile" element={<Profile user={this.state.user}
                                                        getUser={this.getUser}/>}/>
-              <Route path="success" element={<PaymentSuccess/>}/>
             </Routes>
           </div>
         </div>

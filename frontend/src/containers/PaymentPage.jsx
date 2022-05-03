@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import NewPayment from "../components/NewPayment";
 import QrCode from "../components/QrCode";
 import PaymentSuccess from "../components/PaymentSuccess";
-import {Alert} from "react-bootstrap";
+import {Message} from "primereact/message";
 
 export default function PaymentPage(props) {
   if (props.state.user == null) {
@@ -44,6 +44,6 @@ export default function PaymentPage(props) {
                         setPaymentInfo={setPaymentInfo}/>
       );
     default:
-      return (<Alert variant="danger">Error</Alert>);
+      return (<Message variant="danger">Error</Message>);
   }
 }

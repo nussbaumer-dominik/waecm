@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-import {Col, Container, Row} from "react-bootstrap";
-
 import {toast, ToastContainer} from "react-toastify";
-
 import Buttons from "./Buttons";
 
 export default class AppContent extends Component {
@@ -39,13 +36,9 @@ export default class AppContent extends Component {
                user={this.props.state.user}
       />
       {this.props.state.user == null &&
-        <Container>
-          <Row>
-            <Col className="text-center">
-              Sie sind nicht eingeloggt!
-            </Col>
-          </Row>
-        </Container>
+        <div className="flex justify-content-center mt-4">
+          Sie sind nicht eingeloggt!
+        </div>
       }
     </>);
   }
