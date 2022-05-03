@@ -4,8 +4,8 @@ server:
 spring:
   data:
     mongodb:
-      #user: test
-      #password: passwordvalue
+      user: weacm
+      password: weacm
       uri: mongodb://localhost:27017/db
   jpa:
     defer-datasource-initialization: true
