@@ -51,10 +51,14 @@ export default function History(props) {
                   <div>
                     <span className="block text-500 font-medium mb-3">{payment.created_at}</span>
                     <div className="text-900 font-medium text-xl">
-                      {payment.amount} SAT
-
+                      {new Intl.NumberFormat("de-DE", {style: "currency", currency: "SAT"}).format(payment.amount)}
                     </div>
-                    <span className="text-gray-500 font-light text-base">{payment.fiat_value} {payment.currency}</span>
+                    <span className="text-gray-500 font-light text-base">
+                      {new Intl.NumberFormat("de-DE", {
+                        style: "currency",
+                        currency: payment.currency
+                      }).format(payment.fiat_value)}
+                      </span>
                   </div>
                   <div className="flex align-items-center justify-content-center bg-green-100 border-round"
                        style={{width: '2.5rem', height: '2.5rem'}}>
