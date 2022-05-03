@@ -26,6 +26,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "openNode")
@@ -98,12 +99,14 @@ public class OpenNodeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "InterruptedException occurred");
         }
         if (response != null) {
-            System.out.println(response.body());
             try {
                 ChargeInfoDto chargeInfoDto = (new ObjectMapper().readValue(response.body(), ChargeInfoDataDto.class)).getData();
                 if (chargeInfoDto.getStatus() == PaymentStatus.paid) {
-                    Payment payment = new Payment(user.getId(), chargeInfoDto);
-                    paymentRepository.save(payment);
+                    Optional<Payment> existingPayment = paymentRepository.findById(chargeInfoDto.getId());
+                    if (!existingPayment.isPresent()) {
+                        Payment payment = new Payment(user.getId(), chargeInfoDto);
+                        paymentRepository.save(payment);
+                    }
                 }
                 return chargeInfoDto;
             } catch (JsonProcessingException e) {
