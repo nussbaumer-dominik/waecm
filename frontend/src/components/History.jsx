@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Card, Col, Container, Row} from "react-bootstrap";
 import {toast, ToastContainer} from "react-toastify";
 
 export default function History(props) {
@@ -12,30 +11,30 @@ export default function History(props) {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    console.log("useEffect called");
     props.api.getHistory()
       .then(res => {
         const parsedObjects = res.data.map(item => {
           const parsedDate = new Date(item.created_at * 1000);
+          console.log(item);
           return {
             amount: item.amount,
             created_at: parsedDate.toLocaleString("de-AT"),
             currency: item.currency,
             description: item.description,
-            fiat_value: item.fiat_value,
+            fiat_value: item.source_fiat_value,
           }
         });
         setHistory(parsedObjects);
         toast.success(`Api returned ${parsedObjects.length} successful payments.`);
       })
-      .catch(err => {
+      .catch(e => {
         toast.error(e);
       });
   }, [])
 
 
   return (
-    <Container>
+    <div className="lg:mx-8 md:mx-6">
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -71,15 +70,9 @@ export default function History(props) {
           ))}
         </div> :
         <div>
-          <Row>
-            <Col>
-              <h4>
-                Ihre Historie ist derzeit leer.
-              </h4>
-            </Col>
-          </Row>
+          Ihre Historie ist derzeit leer.
         </div>
       }
-    </Container>
+    </div>
   );
 }
