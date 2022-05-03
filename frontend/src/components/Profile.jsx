@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import {Avatar} from "primereact/avatar";
 
 export default function Profile(props) {
 
@@ -8,23 +8,18 @@ export default function Profile(props) {
   }
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col className="col-md-6 ml-auto mr-auto">
+    <div className="mx-6 flex">
+      <div className="justify-content-center">
+        <div className="md:col-6">
           <div className="profile d-flex align-items-center flex-column">
-            <img src={props.user.profile.picture} alt="avatar" width="128" height="128"
-                 className="img-raised rounded-circle"/>
+            <Avatar image={props.user.profile.picture} alt="avatar" size="xlarge" shape="circle"/>
             <div className="name">
               <h3 className="title mb-0">{props.user.profile.name}</h3>
               <span className="username text-muted">@{props.user.profile.preferred_username}</span>
             </div>
           </div>
-
-        </Col>
-      </Row>
-
-      <Row className="justify-content-center">
-        <Col>
+        </div>
+        <div className="col">
           <div className="card text-white bg-success mb-3">
             <div className="card-body">
               <h5 className="card-title">Userinfo</h5>
@@ -71,12 +66,15 @@ export default function Profile(props) {
               </dl>
             </div>
           </div>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
-
 }
+
+
+
+
 
 
 

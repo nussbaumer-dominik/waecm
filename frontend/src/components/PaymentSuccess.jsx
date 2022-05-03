@@ -9,6 +9,10 @@ export default function PaymentSuccess(props) {
   }
 
   const navigateToNewPayment = () => {
+    props.paymentInfo.amount = "";
+    props.paymentInfo.description = "";
+    props.paymentInfo.payReq = "";
+    props.paymentInfo.chargeId = "";
     props.setPaymentInfo({...props.paymentInfo, state: "newPayment"});
   }
 
@@ -27,7 +31,7 @@ export default function PaymentSuccess(props) {
             Neue Zahlung
           </Button>
 
-          <Link to="history">
+          <Link to="../history">
             Zur Historie
           </Link>
         </Col>

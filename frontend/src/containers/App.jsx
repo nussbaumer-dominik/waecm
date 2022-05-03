@@ -10,7 +10,6 @@ import PaymentPage from "./PaymentPage";
 import History from "../components/History";
 import Settings from "../components/Settings";
 import {toast} from "react-toastify";
-import {Col, Container, Row} from "react-bootstrap";
 import Profile from "../components/Profile";
 import axios from "axios";
 import 'primereact/resources/themes/tailwind-light/theme.css';
@@ -117,7 +116,7 @@ class App extends Component {
   render() {
     return (
       <div className="min-h-screen flex flex-column">
-        <div className="bg-gray-900" style={{height: "200px"}}>
+        <div className="bg-gray-900" style={{height: "230px"}}>
           <Header pageTitle="Bsp 2 Gruppe 08"
                   logoSrc={logo}
                   login={this.login}

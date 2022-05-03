@@ -1,5 +1,5 @@
 import * as React from "react";
-import {createRef, useState} from "react";
+import {createRef} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 import logo from "../logo.svg";
 import {Avatar} from "primereact/avatar";
@@ -24,82 +24,69 @@ export default function Header(props) {
     }
   ];
 
-  const [hidden, setHidden] = useState(true);
-
-  const toggle = () => {
-    setHidden(!hidden)
-  }
-
-  // TODO: close hamburger menu when link is pressed
   return (
     <header className="py-3 px-5 flex align-items-center justify-content-between relative lg:static"
             style={{minHeight: "80px"}}>
-      <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6"/>
-      <a className="p-ripple cursor-pointer block lg:hidden text-gray-400 ml-auto" onClick={toggle}>
-        <i className="pi pi-bars text-4xl"></i>
-        <span className="p-ink" style={{height: "34px", width: "34px", top: "7px", left: "1px"}}></span>
-      </a>
-      <div className={hidden ? "hidden lg:block md:block" : ""}>
-        <div className="align-items-center flex-grow-1 justify-content-between lg:flex absolute lg:static w-full bg-gray-900 left-0 top-100 z-1">
-          <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row">
+      <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6 lg:block hidden"/>
+      <div className="align-items-center flex-grow-1 justify-content-between flex w-full bg-gray-900 z-1">
+        <ul className="list-none p-0 m-0 flex align-items-center select-none flex-row flex-wrap lg:justify-content-start justify-content-center">
+          <li className="lg:block hidden">
+            <NavLink to="/"
+                     className="p-ripple flex lg:px-6 p-3 sm:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+                     activeclassname="active">
+              <i className="pi pi-home mr-2"></i>
+              <span>Home</span>
+            </NavLink>
+          </li>
+          {props.user != null &&
             <li>
-              <NavLink to="/"
-                       className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
-                       activeclassname="active">
-                <i className="pi pi-home mr-2"></i>
-                <span>Home</span>
+              <NavLink to="/payment"
+                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                <i className="pi pi-money-bill mr-2"></i>
+                <span>Zahlung</span>
               </NavLink>
             </li>
-            {props.user != null &&
-              <li>
-                <NavLink to="/payment"
-                         className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
-                  <i className="pi pi-money-bill mr-2"></i>
-                  <span>Zahlung</span>
-                </NavLink>
-              </li>
-            }
-            {props.user != null &&
-              <li>
-                <NavLink to="/history"
-                         className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
-                  <i className="pi pi-book mr-2"></i>
-                  <span>Historie</span>
-                </NavLink>
-              </li>
-            }
-            {props.user != null &&
-              <li>
-                <NavLink to="/settings"
-                         className="p-ripple flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
-                  <i className="pi pi-cog mr-2"></i>
-                  <span>Einstellungen</span>
-                </NavLink>
-              </li>
-            }
-          </ul>
+          }
+          {props.user != null &&
+            <li>
+              <NavLink to="/history"
+                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                <i className="pi pi-book mr-2"></i>
+                <span>Historie</span>
+              </NavLink>
+            </li>
+          }
+          {props.user != null &&
+            <li>
+              <NavLink to="/settings"
+                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                <i className="pi pi-cog mr-2"></i>
+                <span>Einstellungen</span>
+              </NavLink>
+            </li>
+          }
+        </ul>
 
-          {props.user == null &&
-            <div>
-              <button type="button" className="p-button p-component"
-                      onClick={props.login}>
+        {props.user == null &&
+          <div>
+            <button type="button" className="p-button p-component"
+                    onClick={props.login}>
               <span className="p-button-label p-c">
                 Login
               </span>
-              </button>
-            </div>
-          }
+            </button>
+          </div>
+        }
 
-          {props.user != null && props.user.profile != null && hidden &&
-            <div>
-              <Menu model={profileMenuModel}
-                    popup ref={profileMenu}/>
-              <Avatar image={props.user.profile.picture}
-                      shape="circle"
-                      onClick={(event) => profileMenu.current.toggle(event)}/>
-            </div>
-          }
-        </div>
+        {props.user != null && props.user.profile != null &&
+          <div>
+            <Menu model={profileMenuModel}
+                  popup ref={profileMenu}/>
+            <Avatar image={props.user.profile.picture}
+                    shape="circle"
+                    onClick={(event) => profileMenu.current.toggle(event)}/>
+          </div>
+        }
       </div>
 
     </header>
@@ -191,3 +178,10 @@ export default function Header(props) {
 const linkStyle = {
   color: "#212529"
 }*/
+
+/*
+<a className="p-ripple cursor-pointer block lg:hidden text-gray-400 ml-auto" onClick={toggle}>
+        <i className="pi pi-bars text-4xl"></i>
+        <span className="p-ink" style={{height: "34px", width: "34px", top: "7px", left: "1px"}}></span>
+      </a>
+ */
