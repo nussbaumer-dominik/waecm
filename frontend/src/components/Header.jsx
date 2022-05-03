@@ -27,7 +27,7 @@ export default function Header(props) {
   return (
     <header className="py-3 px-5 flex align-items-center justify-content-between relative lg:static"
             style={{minHeight: "80px"}}>
-      <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6 lg:block hidden"/>
+      <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6 lg:block hidden App-logo"/>
       <div className="align-items-center flex-grow-1 justify-content-between flex w-full bg-gray-900 z-1">
         <ul className="list-none p-0 m-0 flex align-items-center select-none flex-row flex-wrap lg:justify-content-start justify-content-center">
           <li className="lg:block hidden">

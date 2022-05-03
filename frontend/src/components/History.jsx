@@ -34,7 +34,7 @@ export default function History(props) {
 
 
   return (
-    <div className="lg:mx-8 md:mx-6">
+    <div className="lg:mx-8 md:mx-6 flex justify-content-center">
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -44,10 +44,10 @@ export default function History(props) {
         rtl={false}
         pauseOnHover/>
       {history.length > 0 ?
-        <div className="mt-4">
+        <div className="mt-4 lg:w-6 w-full">
           {history.map((payment, index) => (
             <div key={index} className="mb-2">
-              <div className="surface-card shadow-2 p-3 border-round lg:w-6 xl:w-6 md:w-6 sm:w-full">
+              <div className="surface-card shadow-2 p-3 border-round">
                 <div className="flex justify-content-between mb-3">
                   <div>
                     <span className="block text-500 font-medium mb-3">{payment.created_at}</span>
