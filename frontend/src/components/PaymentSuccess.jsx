@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Button, Col, Container, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {Button} from "primereact/button";
 
 export default function PaymentSuccess(props) {
 
@@ -17,25 +17,20 @@ export default function PaymentSuccess(props) {
   }
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h2 className="text-center">Zahlung erfolgreich durchgeführt</h2>
+    <div className="mx-6">
+      <div className="flex flex-column justify-content-center" style={{gap: "20px"}}>
+        <h2 className="text-center">Zahlung erfolgreich durchgeführt</h2>
 
-          <div>
-            <i className="pi pi-check-circle text-green-500 mr-2" />
-          </div>
+        <div className="flex justify-content-center">
+          <i className="pi pi-check-circle text-green-500 mr-2" style={{fontSize: "200px"}}/>
+        </div>
 
-          <Button variant="success"
-                  onClick={navigateToNewPayment}>
-            Neue Zahlung
-          </Button>
+        <Button label="Neue Zahlung" onClick={navigateToNewPayment}/>
 
-          <Link to="../history">
-            Zur Historie
-          </Link>
-        </Col>
-      </Row>
-    </Container>
+        <Link to="../history">
+          Zur Historie
+        </Link>
+      </div>
+    </div>
   );
 }

@@ -1,9 +1,7 @@
 import * as React from "react";
-import {Card, Col, Container, Form, Row} from "react-bootstrap";
 import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-
 
 export default function NewPayment(props) {
 
