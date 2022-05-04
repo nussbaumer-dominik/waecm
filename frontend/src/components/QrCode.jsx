@@ -36,11 +36,11 @@ export default function QrCode({paymentInfo, setPaymentInfo, api}) {
         pauseOnHover/>
 
       <div className="flex flex-column justify-content-center">
-        <div className="flex flex-column justtify-content-center align-items-center mb-3">
+        <div className="flex flex-column align-items-center mb-3">
           <h2 className="text-center mb-0">{new Intl.NumberFormat("de-DE", {style: "currency", currency: "SAT"}).format(paymentInfo.amount)}</h2>
           <Chip label={new Intl.NumberFormat("de-DE", {style: "currency", currency: "SAT"}).format(paymentInfo.fee) + " Gebühren"}/>
         </div>
-        <QRCodeSVG value={paymentInfo.payReq} size={256} style={{}}/>
+        <QRCodeSVG value={paymentInfo.payReq} size={256} style={{alignSelf: "center"}}/>
         <p className="text-center">
           {paymentInfo.description}
         </p>
