@@ -5,6 +5,7 @@ import {toast, ToastContainer} from "react-toastify";
 import copy from "../copy.svg";
 import {useEffect} from "react";
 import {Button} from "primereact/button";
+import {Chip} from "primereact/chip";
 
 export default function QrCode({paymentInfo, setPaymentInfo, api}) {
 
@@ -34,24 +35,26 @@ export default function QrCode({paymentInfo, setPaymentInfo, api}) {
         rtl={false}
         pauseOnHover/>
 
-      <div>
-        <div>
-          <h2 className="text-center mb-0">{paymentInfo.amount} SAT</h2>
-          <span className="badge badge-danger w-100">{paymentInfo.fee} SAT Gebühren</span>
+      <div className="flex flex-column justify-content-center">
+        <div className="flex flex-column justtify-content-center align-items-center mb-3">
+          <h2 className="text-center mb-0">{new Intl.NumberFormat("de-DE", {style: "currency", currency: "SAT"}).format(paymentInfo.amount)}</h2>
+          <Chip label={new Intl.NumberFormat("de-DE", {style: "currency", currency: "SAT"}).format(paymentInfo.fee) + " Gebühren"}/>
         </div>
-        <QRCodeSVG value={paymentInfo.payReq} size={256}/>
-        <p>
+        <QRCodeSVG value={paymentInfo.payReq} size={256} style={{}}/>
+        <p className="text-center">
           {paymentInfo.description}
         </p>
-        <div className="text-muted m-0" style={payreqStyle}>
-          {paymentInfo.payReq}
+        <div className="flex flex-column align-items-center">
+          <p className="text-muted" style={payreqStyle}>
+            {paymentInfo.payReq}
+          </p>
+          <CopyToClipboard text={paymentInfo.payReq}
+                           onCopy={() => toast.success("In die Zwischenablage kopiert.", {position: toast.POSITION.TOP_CENTER})}>
+            <Button>
+              <img src={copy} alt="copy icon"/>
+            </Button>
+          </CopyToClipboard>
         </div>
-        <CopyToClipboard text={paymentInfo.payReq}
-                         onCopy={() => toast.success("In die Zwischenablage kopiert.", {position: toast.POSITION.TOP_CENTER})}>
-          <Button>
-            <img src={copy} alt="copy icon"/>
-          </Button>
-        </CopyToClipboard>
       </div>
     </div>
   );
