@@ -4,10 +4,6 @@ import {Button} from "primereact/button";
 
 export default function PaymentSuccess(props) {
 
-  const handleError = () => {
-    props.setPaymentInfo({...props.paymentInfo, state: "error"});
-  }
-
   const navigateToNewPayment = () => {
     props.paymentInfo.amount = "";
     props.paymentInfo.description = "";
@@ -18,7 +14,7 @@ export default function PaymentSuccess(props) {
 
   return (
     <div className="mx-6">
-      <div className="flex flex-column justify-content-center" style={{gap: "20px"}}>
+      <div className="flex flex-column align-items-center" style={{gap: "20px"}}>
         <h2 className="text-center">Zahlung erfolgreich durchgeführt</h2>
 
         <div className="flex justify-content-center">
