@@ -26,9 +26,9 @@ Backend:
   - diason/waecm:waecm-2022-group-08-bsp-2-backend
   - Hash: sha256:56accbe06c554424cfb4d2ae7d33c298535cc263dc2003558b76088ef4299bf5
   
-Datenbank
-  - 
-  Hash:
+Datenbank:
+  - mongo:latest
+  - Hash:sha256:7a64cdeaef8bad94f3a7f058a18c0de6b2f5dde640297b6100c3b88e2646d268
 
 
 
