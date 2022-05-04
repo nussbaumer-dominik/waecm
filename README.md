@@ -20,11 +20,11 @@ Alle drei Images wurden im Docker Hub hochgeladen und stehen dort öffentlich zu
 
 Frontend:
   - diason/waecm:waecm-2022-group-08-bsp-2-frontend
-  - Hash: sha256:414380fd246e2b8cd5e7c44de08e1bb9c6b4d33f71309a87d490b2bb23ba09b8 size: 1780
+  - Hash: sha256:2fd705400eafd092d89104382fb8d51b4658f2945a3e159a3a8624f93746f72a
 
 Backend:
   - diason/waecm:waecm-2022-group-08-bsp-2-backend
-  - Hash: sha256:56accbe06c554424cfb4d2ae7d33c298535cc263dc2003558b76088ef4299bf5 size: 1163
+  - Hash: sha256:56accbe06c554424cfb4d2ae7d33c298535cc263dc2003558b76088ef4299bf5
   
 Datenbank
   - 
