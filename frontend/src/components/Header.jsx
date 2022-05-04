@@ -27,13 +27,14 @@ export default function Header(props) {
   return (
     <header className="py-3 px-5 flex align-items-center justify-content-between relative lg:static"
             style={{minHeight: "80px"}}>
-      <img src={logo} alt="react logo" height="40" className="mr-0 lg:mr-6 lg:block hidden App-logo"/>
+      <img src={logo} alt="react logo" height="80" className="mr-0 lg:mr-6 lg:block hidden App-logo"/>
       <div className="align-items-center flex-grow-1 justify-content-between flex w-full bg-gray-900 z-1">
-        <ul className="list-none p-0 m-0 flex align-items-center select-none flex-row flex-wrap lg:justify-content-start justify-content-center">
+        <ul
+          className="list-none p-0 m-0 flex align-items-center select-none flex-row flex-wrap lg:justify-content-start justify-content-center">
           <li className="lg:block hidden">
             <NavLink to="/"
                      className="p-ripple flex lg:px-6 p-3 sm:px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
-                     activeclassname="active">
+                     style={{textDecoration: 'none'}}>
               <i className="pi pi-home mr-2"></i>
               <span>Home</span>
             </NavLink>
@@ -41,7 +42,8 @@ export default function Header(props) {
           {props.user != null &&
             <li>
               <NavLink to="/payment"
-                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+                       style={{textDecoration: 'none'}}>
                 <i className="pi pi-money-bill mr-2"></i>
                 <span>Zahlung</span>
               </NavLink>
@@ -50,7 +52,8 @@ export default function Header(props) {
           {props.user != null &&
             <li>
               <NavLink to="/history"
-                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+                       style={{textDecoration: 'none'}}>
                 <i className="pi pi-book mr-2"></i>
                 <span>Historie</span>
               </NavLink>
@@ -59,7 +62,8 @@ export default function Header(props) {
           {props.user != null &&
             <li>
               <NavLink to="/settings"
-                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                       className="p-ripple flex lg:px-6 p-3 px-3 lg:py-2 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+                       style={{textDecoration: 'none'}}>
                 <i className="pi pi-cog mr-2"></i>
                 <span>Einstellungen</span>
               </NavLink>
