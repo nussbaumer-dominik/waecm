@@ -1,4 +1,4 @@
-# docker compose uebung 1
+# docker compose uebung 2
 version: '3.9'
 
 services:
@@ -15,12 +15,12 @@ services:
     database:
         image: 'mongo'
         container_name: 'waecm-2022-group-08-bsp-2-mongoDb'
-        environment:
-            - MONGO_INITDB_DATABASE=waecm-2022-group-08-bsp-2-mongoDb
-            - MONGO_INITDB_ROOT_USERNAME=waecm
-            - MONGO_INITDB_ROOT_PASSWORD=waecm
-        volumes:
-            - ./mongoDb.js:/docker-entrypoint-initdb.d/mongoDb.js:ro
-            - ./mongo-volume:/data/db
+        #environment:
+        #    - MONGO_INITDB_DATABASE=waecm-2022-group-08-bsp-2-mongoDb
+        #    - MONGO_INITDB_ROOT_USERNAME=waecm
+        #    - MONGO_INITDB_ROOT_PASSWORD=waecm
+        #volumes:
+        #    - ./mongoDb.js:/docker-entrypoint-initdb.d/mongoDb.js:ro
+        #    - ./mongo-volume:/data/db
         ports:
-            -   '27017-27019:27017-27019'
+            -   '27018:27017'
