@@ -11,6 +11,10 @@ import at.waecm.backend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -23,6 +27,9 @@ import java.util.*;
 @RestController
 @RequestMapping(value = "user")
 public class UserController {
+
+    @Autowired
+    MongoTemplate mongoTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final String BASE_URL = "/user";
     private final UserRepository userRepository;
@@ -70,7 +77,14 @@ public class UserController {
 
         User user = userService.loadUser(authUser);
         user.setApiKey(apiKey.trim());
-        userRepository.save(user);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(user.getId()));
+        Update update = new Update();
+        update.set("apiKey", apiKey);
+        mongoTemplate.updateFirst(query, update, User.class);
+
+        //userRepository.save(user);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -88,7 +102,14 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Location currency must not be null or empty");
         User user = userService.loadUser(authUser);
         user.setLocalCurrency(localCurrency);
-        userRepository.save(user);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(user.getId()));
+        Update update = new Update();
+        update.set("localCurrency", localCurrency);
+        mongoTemplate.updateFirst(query, update, User.class);
+
+        //userRepository.save(user);
     }
 
     @ResponseStatus(HttpStatus.OK)
