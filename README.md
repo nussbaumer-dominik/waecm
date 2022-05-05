@@ -1,4 +1,5 @@
-# WAECM 
+# WAECM
+
 ## Bsp 2 Gruppe 08
 
 Stack: 
@@ -11,27 +12,29 @@ Stack:
   - Ermöglicht schnelle Entwicklung und eine hohe Schema-Flexibilität.
 
 Wir haben drei Container erstellt:
-  - Ein Container agiert als Webserver und basiert auf dem offiziellen nginx Container, wo wir unsere React Komponenten hinzugefügt haben. Der Container gibt port 4444 nach außen frei.
-  - Der zweite Container basiert auf openjdk:17-alpine und startet das Sprong-Boot Backend auf Port 8080 und gibt diesen auch nach außen frei.
-  - Der dritte Container ist ein MongoDB Datenbankserver mit dem frigegebenen Port 27018
+
+- Ein Container agiert als Webserver und basiert auf dem offiziellen nginx Container, wo wir unsere React Komponenten hinzugefügt haben. Der Container gibt port 4444 nach außen frei.
+- Der zweite Container basiert auf openjdk:17-alpine und startet das Sprong-Boot Backend auf Port 8080 und gibt diesen auch nach außen frei.
+- Der dritte Container ist ein MongoDB Datenbankserver mit dem frigegebenen Port 27018
 
 Start der Container ist mittels docker-compose up möglich
 Alle drei Images wurden auf Docker Hub hochgeladen und stehen dort öffentlich zur verfügung
 
 Frontend:
-  - diason/waecm:waecm-2022-group-08-bsp-2-frontend
-  - Hash: sha256:b23a52a0605d0201d8af6b59b7283a9448a0998ff0f0fba17315b4ede2a6d587
+
+- diason/waecm:waecm-2022-group-08-bsp-2-frontend
+- Hash: 
+  1. sha256:5d4ce9921abf1fdca5b0ade82d55eb162fadba6e0a8d0235c96d8b9c5b213d71
 
 Backend:
-  - diason/waecm:waecm-2022-group-08-bsp-2-backend
-  - Hash: sha256:d08d3fa84105c8146841a657bfba2c56c9a3048bc5a0d440511d4bd14a65936e
-  
+
+- diason/waecm:waecm-2022-group-08-bsp-2-backend
+- Hash: sha256:d08d3fa84105c8146841a657bfba2c56c9a3048bc5a0d440511d4bd14a65936e
+
 Datenbank:
-  - mongo:latest
-  - Hash:sha256:7a64cdeaef8bad94f3a7f058a18c0de6b2f5dde640297b6100c3b88e2646d268
 
-
-
+- mongo:latest
+- Hash:sha256:7a64cdeaef8bad94f3a7f058a18c0de6b2f5dde640297b6100c3b88e2646d268
 
 ## Getting started
 
