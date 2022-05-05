@@ -6,7 +6,9 @@ spring:
     mongodb:
       #user: waecm
       #password: waecm
-      uri: mongodb://localhost:27018
+      uri: mongodb://database:27017
+      #host: database
+      port: 27017
   jpa:
     defer-datasource-initialization: true
   security:

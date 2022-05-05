@@ -23,6 +23,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public MongoClient mongoClient() {
+        System.out.println("Verbinde zu: " + mongodbConnectionString);
         ConnectionString connectionString = new ConnectionString(mongodbConnectionString);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
