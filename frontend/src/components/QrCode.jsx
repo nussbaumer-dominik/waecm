@@ -2,12 +2,13 @@ import * as React from "react";
 import QRCodeSVG from "qrcode.react";
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
 import {toast, ToastContainer} from "react-toastify";
-import copy from "../copy.svg";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "primereact/button";
 import {Chip} from "primereact/chip";
 
 export default function QrCode({paymentInfo, setPaymentInfo, api}) {
+
+  const [copied, setCopied] = useState(false);
 
   const handleNext = () => {
     setPaymentInfo({...paymentInfo, state: "success"});
@@ -23,6 +24,12 @@ export default function QrCode({paymentInfo, setPaymentInfo, api}) {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
+
+  const onCopy = () => {
+    setCopied(true);
+    toast.success("In die Zwischenablage kopiert.", {position: toast.POSITION.TOP_CENTER})
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <div className="flex justify-content-center">
@@ -49,9 +56,9 @@ export default function QrCode({paymentInfo, setPaymentInfo, api}) {
             {paymentInfo.payReq}
           </p>
           <CopyToClipboard text={paymentInfo.payReq}
-                           onCopy={() => toast.success("In die Zwischenablage kopiert.", {position: toast.POSITION.TOP_CENTER})}>
-            <Button>
-              <img src={copy} alt="copy icon"/>
+                           onCopy={onCopy}>
+            <Button tooltip={copied ? "Kopiert" : "In die Zwischenablage kopieren"} tooltipOptions={{position: "bottom"}}>
+              <i className="pi pi-copy text-white"></i>
             </Button>
           </CopyToClipboard>
         </div>
