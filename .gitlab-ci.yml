@@ -2,7 +2,7 @@ image: maven:3.8-amazoncorretto-17
 
 cache:
   paths:
-    - m2/repository
+    - .m2/repository
 
 stages:          # List of stages for jobs, and their order of execution
   - build
