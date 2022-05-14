@@ -14,7 +14,7 @@ backend:
   stage: build
   script:
     - cd backend
-    - chmod +x mvnw
+    - git update-index --chmod=+x mvnw
     - ./mvnw clean install
 
 style-check:
