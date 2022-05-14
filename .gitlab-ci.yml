@@ -1,10 +1,13 @@
 image: maven:3.8-amazoncorretto-17
 
+cache:
+  paths:
+    - m2/repository
+
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
   - style-check
-  - package
 
 frontend:       # This job runs in the build stage, which runs first.
   image: node
@@ -24,7 +27,10 @@ backend:
   stage: build
   script:
     - cd backend
-    - mvn clean compile
+    - mvn clean package
+  artifacts:
+    paths:
+      - target/*.jar
 
 backend-test:
   stage: test
@@ -34,15 +40,6 @@ backend-test:
   artifacts:
     paths:
       - target/surefire-reports/*
-
-backend-package:
-    stage: package
-    script:
-      - cd backend
-      - mvn install
-    artifacts:
-      paths:
-        - target/*.jar
 
 style-check:
     stage: style-check
