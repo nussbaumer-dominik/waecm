@@ -1,8 +1,15 @@
-image: node
+image: docker:latest
 
 stages:          # List of stages for jobs, and their order of execution
   - build
+  - test
   - style-check
+  - package
+
+beforeAll:
+  script:
+    - export MAVEN_USER_HOME=`pwd`/.maven
+    - chmod +x mvnw
 
 frontend:       # This job runs in the build stage, which runs first.
   stage: build
@@ -14,8 +21,23 @@ backend:
   stage: build
   script:
     - cd backend
-    - git update-index --chmod=+x mvnw
-    - ./mvnw clean install
+    - ./mvnw compile -Dmaven.repo.local=$MAVEN_USER_HOME
+
+backend-test:
+  stage: test
+  script: 
+    - ./mvnw test -Dmaven.repo.local=$MAVEN_USER_HOME
+  artifacts:
+      paths:
+          - target/surefire-reports/*
+
+backend-package:
+    stage: package
+    script:
+        - ./mvnw package -Pprod -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
+    artifacts:
+        paths:
+            - target/*.jar
 
 style-check:
     stage: style-check
