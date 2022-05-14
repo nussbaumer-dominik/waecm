@@ -26,6 +26,7 @@ backend:
 backend-test:
   stage: test
   script: 
+    - cd backend
     - mvn test
   artifacts:
       paths:
