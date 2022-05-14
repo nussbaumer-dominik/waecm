@@ -30,7 +30,7 @@ backend:
     - mvn clean install
   artifacts:
     paths:
-      - target/*.jar
+      - target/
 
 backend-test:
   stage: test
