@@ -27,7 +27,7 @@ backend:
   stage: build
   script:
     - cd backend
-    - mvn clean package
+    - mvn clean install
   artifacts:
     paths:
       - target/*.jar
