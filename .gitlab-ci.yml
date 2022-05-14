@@ -16,12 +16,15 @@ frontend:       # This job runs in the build stage, which runs first.
     - cd frontend
     - npm install
     - npm run build
+  artifacts:
+    paths:
+        - build/*
 
 backend:
   stage: build
   script:
     - cd backend
-    - mvn clean install
+    - mvn clean compile
 
 backend-test:
   stage: test
@@ -35,7 +38,7 @@ backend-test:
 backend-package:
     stage: package
     script:
-        - mvn package
+        - mvn install
     artifacts:
         paths:
             - target/*.jar
