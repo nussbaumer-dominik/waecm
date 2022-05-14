@@ -15,7 +15,7 @@ frontend:       # This job runs in the build stage, which runs first.
     - npm config set registry http://registry.npmjs.org/
     - cd frontend
     - npm install
-    - npm build
+    - npm run build
 
 backend:
   stage: build
