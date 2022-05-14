@@ -1,4 +1,4 @@
-image: docker:latest
+image: maven:3.8-amazoncorretto-17
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -16,14 +16,12 @@ backend:
   stage: build
   script:
     - cd backend
-    - export MAVEN_USER_HOME=`pwd`/.maven
-    - chmod +x mvnw
-    - ./mvnw compile
+    - mvn clean compile
 
 backend-test:
   stage: test
   script: 
-    - ./mvnw test -Dmaven.repo.local=$MAVEN_USER_HOME
+    - mvn test
   artifacts:
       paths:
           - target/surefire-reports/*
@@ -31,7 +29,7 @@ backend-test:
 backend-package:
     stage: package
     script:
-        - ./mvnw package -Pprod -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
+        - mvn package
     artifacts:
         paths:
             - target/*.jar
