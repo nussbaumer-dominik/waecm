@@ -4,12 +4,17 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - style-check
 
-build-job:       # This job runs in the build stage, which runs first.
+frontend:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - cd frontend
     - npm install
-    - cd ../backend
+
+backend:
+  stage: build
+  script:
+    - cd backend
+    - chmod +x mvnw
     - ./mvnw clean install
 
 style-check:
