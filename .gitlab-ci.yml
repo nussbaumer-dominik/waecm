@@ -15,12 +15,13 @@ frontend:       # This job runs in the build stage, which runs first.
     - npm config set registry http://registry.npmjs.org/
     - cd frontend
     - npm install
+    - npm build
 
 backend:
   stage: build
   script:
     - cd backend
-    - mvn clean compile
+    - mvn clean install
 
 backend-test:
   stage: test
