@@ -32,16 +32,17 @@ backend-test:
     - cd backend
     - mvn test
   artifacts:
-      paths:
-          - target/surefire-reports/*
+    paths:
+      - target/surefire-reports/*
 
 backend-package:
     stage: package
     script:
-        - mvn install
+      - cd backend
+      - mvn install
     artifacts:
-        paths:
-            - target/*.jar
+      paths:
+        - target/*.jar
 
 style-check:
     stage: style-check
