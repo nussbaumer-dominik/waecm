@@ -38,9 +38,6 @@ backend-test:
   script: 
     - cd backend
     - mvn test
-  artifacts:
-    paths:
-      - target/surefire-reports/*
 
 frontend-test:
   image: node
