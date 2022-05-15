@@ -41,6 +41,13 @@ backend-test:
     paths:
       - target/surefire-reports/*
 
+frontend-test:
+  image: node
+  stage: test
+  script: 
+    - cd frontend
+    - npm run test
+
 style-check:
     stage: style-check
     script:
