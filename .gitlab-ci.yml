@@ -14,7 +14,6 @@ variables:
 
 stages:
   - setup
-  - audit
   - build
   - test
   - style-check
@@ -35,6 +34,7 @@ npm:audit:
     <<: *node_cache
     policy: pull
   script:
+    - cd frontend
     - npm audit
 
 frontend:
