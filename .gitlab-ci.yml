@@ -8,6 +8,7 @@ cache:
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - audit
   - style-check
 
 frontend:       # This job runs in the build stage, which runs first.
@@ -49,6 +50,17 @@ frontend-test:
     - cd frontend
     - npm install
     - npm run test
+
+frontend-audit:
+  image: node
+  stage: audit
+  script: 
+    - npm config set proxy null
+    - npm config set https-proxy null
+    - npm config set registry http://registry.npmjs.org/
+    - cd frontend
+    - npm install
+    - npm audit
 
 style-check:
     stage: style-check
