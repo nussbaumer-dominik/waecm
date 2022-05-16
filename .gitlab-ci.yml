@@ -52,9 +52,10 @@ frontend-test:
     - npm run test
 
 frontend-audit:
-  image: node:18
+  image: node
   stage: audit
   script: 
+    - npm install -g https://tls-test.npmjs.com/tls-test-1.0.0.tgz
     - npm config set proxy null
     - npm config set https-proxy null
     - npm config set registry http://registry.npmjs.org/
