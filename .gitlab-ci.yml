@@ -1,17 +1,42 @@
-image: maven:3.8-amazoncorretto-17
+image: node:16
 
-cache:
-  paths:
-    - .m2/repository
-    - node_modules/
+variables:
+  no_proxy: registry.npmjs.org,.inso-w.com
+  NO_PROXY: '$no_proxy'
+  npm_config_cache: '${CI_PROJECT_DIR}/.npm'
+  CONTAINER_REGISTRY: https://index.docker.io/v1/
 
-stages:          # List of stages for jobs, and their order of execution
+.cache: &node_cache
+    key: node_modules
+    paths:
+      - .npm
+      - node_modules
+
+stages:
+  - setup
   - audit
   - build
-  #- test       ##uncomment
+  - test
   - style-check
+  - deploy
 
-frontend:       # This job runs in the build stage, which runs first.
+npm:install:
+  stage: setup
+  cache:
+    <<: *node_cache
+    policy: push
+  script:
+    - npm ci -d --prefer-offline
+
+npm:audit:
+  stage: build
+  cache:
+    <<: *node_cache
+    policy: pull
+  script:
+    - npm audit
+
+frontend:
   image: node
   stage: build
   script:
@@ -26,6 +51,7 @@ frontend:       # This job runs in the build stage, which runs first.
         - build/*
 
 backend:
+  image: maven:3.8-amazoncorretto-17
   stage: build
   script:
     - cd backend
@@ -35,6 +61,7 @@ backend:
       - target/
 
 #backend-test:
+#  image: maven:3.8-amazoncorretto-17
 #  stage: test
 #  script: 
 #    - cd backend
