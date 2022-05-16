@@ -55,9 +55,10 @@ frontend-audit:
   image: node
   stage: audit
   script: 
+    - npm config set proxy null
+    - npm config set https-proxy null
+    - npm config set registry http://registry.npmjs.org/
     - cd frontend
-    - node -v
-    - npm -v
     - npm install
     - npm audit
 
