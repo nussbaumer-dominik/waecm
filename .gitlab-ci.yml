@@ -26,6 +26,7 @@ npm:install:
     <<: *node_cache
     policy: push
   script:
+    - cd frontend
     - npm ci -d --prefer-offline
 
 npm:audit:
