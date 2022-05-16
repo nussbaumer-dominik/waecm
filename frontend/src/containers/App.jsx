@@ -9,6 +9,7 @@ import "./App.css";
 import PaymentPage from "./PaymentPage";
 import History from "../components/History";
 import Settings from "../components/Settings";
+import DataRights from "../components/cookies/DataRights";
 import {toast} from "react-toastify";
 import Profile from "../components/Profile";
 import axios from "axios";
@@ -17,6 +18,12 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import QrCode from "../components/QrCode";
+import CookieBanner from '../components/cookies/CookieBanner';
+import { isServer } from '../components/cookies/helpers';
+
+
+const CookieBannerUniversal = (props) => (isServer() ? null : <CookieBanner {...props} />);
+export { CookieBannerUniversal as CookieBanner };
 
 class App extends Component {
 
@@ -144,12 +151,51 @@ class App extends Component {
                                                          api={this.apiService}/>}/>
               <Route path="/profile" element={<Profile user={this.state.user}
                                                        getUser={this.getUser}/>}/>
+
+              <Route path="/data-rights" element = {<DataRights user={this.state.user}
+                                                                getUser={this.getUser}/>}/>
             </Routes>
           </div>
         </div>
+        <footer>
+          <div>
+            <div id="popUpCookies1" hidden={true}>
+              <CookieBanner
+                  message="Um Ihnen den bestmöglichen Service zu gewähleisten speichert waecm personenbezogene Daten. Beachten Sie "
+                  wholeDomain={true}
+                  onAcceptStatistics={() => {}}
+                  onAcceptMarketing={() => {}}
+              />
+            </div>
+            <div id="popUpCookies">
+              <CookieBanner
+                  message="Um Ihnen den bestmöglichen Service zu gewähleisten speichert waecm personenbezogene Daten. Beachten Sie "
+                  wholeDomain={false}
+                  onAcceptStatistics={() => {}}
+                  onAcceptMarketing={() => {}}
+              />
+            </div>
+          </div>
+          <button
+              type="button"
+              className="flex justify-content-center"
+              onClick={() =>cookiesBanner()}
+          >
+            Cookie Einstellungen
+          </button>
+
+
+        </footer>
       </div>
     );
   }
+}
+function cookiesBanner() {
+  const popup = document.getElementById("popUpCookies");
+  const popup1 = document.getElementById("popUpCookies1");
+
+  popup.hidden = true
+  popup1.hidden = !popup1.hidden;
 }
 
 export default App;
