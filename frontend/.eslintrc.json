@@ -7,6 +7,11 @@
         "eslint:recommended",
         "plugin:react/recommended"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -18,5 +23,10 @@
         "react"
     ],
     "rules": {
+        "react/prop-types": 0,
+        "react/display-name": 0
+    },
+    "globals": {
+        "process": true
     }
 }
