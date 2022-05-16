@@ -52,7 +52,7 @@ backend:
 #    - npm run test
 
 frontend-audit:
-  image: node
+  image: node:18
   stage: audit
   script: 
     - npm config set proxy null
