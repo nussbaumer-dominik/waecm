@@ -63,10 +63,10 @@ frontend-audit:
     - npm audit
 
 
-style-check:
+frontend-style-check:
    stage: style-check
    script:
-     - cd Frontend/frontend
+     - cd frontend
      - npm install --save-dev eslint-config-react-app eslint@^8.0.0 eslint-config-prettier eslint-plugin-prettier
      - node_modules/eslint/bin/eslint.js .
 
