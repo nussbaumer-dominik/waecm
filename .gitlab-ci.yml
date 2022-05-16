@@ -3,8 +3,10 @@ image: maven:3.8-amazoncorretto-17
 cache:
   paths:
     - .m2/repository
+    - node_modules/
 
 stages:          # List of stages for jobs, and their order of execution
+  - audit
   - build
   - test
   - style-check
@@ -37,9 +39,28 @@ backend-test:
   script: 
     - cd backend
     - mvn test
-  artifacts:
-    paths:
-      - target/surefire-reports/*
+
+frontend-test:
+  image: node
+  stage: test
+  script: 
+    - npm config set proxy null
+    - npm config set https-proxy null
+    - npm config set registry http://registry.npmjs.org/
+    - cd frontend
+    - npm install
+    - npm run test
+
+frontend-audit:
+  image: node
+  stage: audit
+  script: 
+    - npm config set proxy null
+    - npm config set https-proxy null
+    - npm config set registry http://registry.npmjs.org/
+    - cd frontend
+    - npm install
+    - npm audit
 
 style-check:
     stage: style-check
