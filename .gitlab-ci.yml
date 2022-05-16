@@ -78,17 +78,6 @@ backend:
 #    - npm install
 #    - npm run test
 
-frontend-audit:
-  image: node:18
-  stage: audit
-  script: 
-    - npm config set proxy null
-    - npm config set https-proxy null
-    - npm config set registry http://registry.npmjs.org/
-    - cd frontend
-    - npm install
-    - npm audit
-
 
 frontend-style-check:
    stage: style-check
