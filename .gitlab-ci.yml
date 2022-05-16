@@ -61,6 +61,7 @@ frontend-audit:
     - npm config set registry http://registry.npmjs.org/
     - cd frontend
     - node -v
+    - npm -v
     - npm install
     - npm audit
 
