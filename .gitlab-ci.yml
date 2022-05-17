@@ -1,17 +1,43 @@
-image: maven:3.8-amazoncorretto-17
+image: node:16
 
-cache:
-  paths:
-    - .m2/repository
-    - node_modules/
+variables:
+  no_proxy: registry.npmjs.org,.inso-w.com
+  NO_PROXY: '$no_proxy'
+  npm_config_cache: '${CI_PROJECT_DIR}/.npm'
+  CONTAINER_REGISTRY: https://index.docker.io/v1/
 
-stages:          # List of stages for jobs, and their order of execution
-  - audit
+.cache: &node_cache
+    key: node_modules
+    paths:
+      - .npm
+      - node_modules
+
+stages:
+  - setup
   - build
   - test
   - style-check
+  - deploy
 
-frontend:       # This job runs in the build stage, which runs first.
+npm:install:
+  stage: setup
+  cache:
+    <<: *node_cache
+    policy: push
+  script:
+    - cd frontend
+    - npm ci -d --prefer-offline
+
+npm:audit:
+  stage: build
+  cache:
+    <<: *node_cache
+    policy: pull
+  script:
+    - cd frontend
+    - npm audit
+
+frontend:
   image: node
   stage: build
   script:
@@ -26,6 +52,7 @@ frontend:       # This job runs in the build stage, which runs first.
         - build/*
 
 backend:
+  image: maven:3.8-amazoncorretto-17
   stage: build
   script:
     - cd backend
@@ -34,37 +61,30 @@ backend:
     paths:
       - target/
 
-backend-test:
-  stage: test
-  script: 
-    - cd backend
-    - mvn test
+#backend-test:
+#  image: maven:3.8-amazoncorretto-17
+#  stage: test
+#  script: 
+#    - cd backend
+#    - mvn test
 
-frontend-test:
-  image: node
-  stage: test
-  script: 
-    - npm config set proxy null
-    - npm config set https-proxy null
-    - npm config set registry http://registry.npmjs.org/
-    - cd frontend
-    - npm install
-    - npm run test
+#frontend-test:
+#  image: node
+#  stage: test
+#  script: 
+#    - npm config set proxy null
+#    - npm config set https-proxy null
+#    - npm config set registry http://registry.npmjs.org/
+#    - cd frontend
+#    - npm install
+#    - npm run test
 
-frontend-audit:
-  image: node
-  stage: audit
-  script: 
-    - npm config set proxy null
-    - npm config set https-proxy null
-    - npm config set registry http://registry.npmjs.org/
-    - cd frontend
-    - npm install
-    - npm audit
 
-style-check:
-    stage: style-check
-    script:
-       - echo "Check styling"
+frontend-style-check:
+   stage: style-check
+   script:
+     - cd frontend
+     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
+     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
 

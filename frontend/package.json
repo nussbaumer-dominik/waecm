@@ -6,10 +6,12 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix"
   },
   "dependencies": {
-    "axios": "0.27.2",
+    "axios": "^0.27.2",
     "core-js": "3.6.5",
     "oidc-client": "1.10.1",
     "primeflex": "^3.1.3",

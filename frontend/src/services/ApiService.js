@@ -132,7 +132,7 @@ export class ApiService {
       Authorization: 'Bearer ' + token
     };
     return axios.get(Constants.baseUrl + url, {headers});
-  };
+  }
 
   _postApi(token, url, body) {
     const headers = {
