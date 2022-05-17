@@ -74,6 +74,7 @@ class CookieBanner extends HTMLElement {
             element.hideCookieBanner();
         });
         this.shadowRoot.querySelector('button.green').addEventListener('click', function (event) {
+            element.setCookie('cookie.banner.required', true, 30);
             element.setCookie('cookie.banner.all', true, 30);
             element.setCookie('cookie.banner.accepted', true, 30);
             element.hideCookieBanner();
