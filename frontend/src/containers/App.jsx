@@ -16,11 +16,8 @@ import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import '../cookie-banner';
+import '../cookie-banner.js';
 import DataRights from "../components/DataRights";
-
-const CookieBannerUniversal = (props) => (isServer() ? null : <CookieBanner {...props} />);
-export { CookieBannerUniversal as CookieBanner };
 
 class App extends Component {
 
