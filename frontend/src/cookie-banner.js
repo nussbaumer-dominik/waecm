@@ -55,7 +55,7 @@ class CookieBanner extends HTMLElement {
 
     connectedCallback() {
         const element = this;
-        this.shadowRoot.querySelector('button.confirm').addEventListener('click', function (event) {
+        this.shadowRoot.querySelector('button.confirm').addEventListener('click', function () {
             element.eraseCookie('cookie.banner.accepted')
             element.eraseCookie('cookie.banner.all')
             element.setCookie('cookie.banner.required', true, 30);
@@ -66,14 +66,14 @@ class CookieBanner extends HTMLElement {
             });
             element.hideCookieBanner();
         });
-        this.shadowRoot.querySelector('button.cancel').addEventListener('click', function (event) {
+        this.shadowRoot.querySelector('button.cancel').addEventListener('click', function () {
             element.eraseCookie('cookie.banner.accepted')
             element.eraseCookie('cookie.banner.all')
             element.setCookie('cookie.banner.required', true, 30);
 
             element.hideCookieBanner();
         });
-        this.shadowRoot.querySelector('button.green').addEventListener('click', function (event) {
+        this.shadowRoot.querySelector('button.green').addEventListener('click', function () {
             element.setCookie('cookie.banner.required', true, 30);
             element.setCookie('cookie.banner.all', true, 30);
             element.setCookie('cookie.banner.accepted', true, 30);

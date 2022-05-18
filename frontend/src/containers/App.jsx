@@ -16,7 +16,6 @@ import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import QrCode from "../components/QrCode";
 import '../cookie-banner';
 import DataRights from "../components/DataRights";
 
