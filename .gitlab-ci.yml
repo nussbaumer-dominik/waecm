@@ -14,7 +14,7 @@ variables:
 
 stages:
   - setup
-  - build
+  - audit
   - test
   - style-check
   - deploy
@@ -29,7 +29,7 @@ npm:install:
     - npm ci -d --prefer-offline
 
 npm:audit:
-  stage: build
+  stage: audit
   cache:
     <<: *node_cache
     policy: pull
@@ -52,6 +52,7 @@ frontend-test:
   stage: test
   script: 
     - cd frontend
+    - npm install vitest
     - npm run test
 
 frontend-style-check:
