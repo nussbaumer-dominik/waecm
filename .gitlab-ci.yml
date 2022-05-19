@@ -33,6 +33,8 @@ npm:install:
 
 npm:audit:
   stage: audit
+  needs: 
+    - job: npm:install
   cache:
     <<: *node_cache
     policy: pull
@@ -43,7 +45,7 @@ npm:audit:
 frontend-build: 
   stage: build
   needs: 
-    - job: npm:install 
+    - job: npm:install
   cache:
     <<: *node_cache
     policy: pull
@@ -67,6 +69,8 @@ backend:
 frontend-test:
   image: node
   stage: test
+  needs: 
+    - job: frontend-build
   script: 
     - cd frontend
     - npm install vitest
