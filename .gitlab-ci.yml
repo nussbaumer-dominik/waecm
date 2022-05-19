@@ -41,11 +41,9 @@ npm:install:
 
 frontend-build: 
   stage: build
-  cache:
-    <<: *node_cache
-    policy: pull
   script:
     - cd frontend
+    - npm i
     - npm run build
   artifacts:
     paths:
