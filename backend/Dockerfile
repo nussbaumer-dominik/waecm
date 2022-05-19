@@ -1,14 +1,23 @@
-# Dockerfile Backend OpenJDK 17
-FROM openjdk:17-alpine
+# Dockerfile Build JAR Backend OpenJDK 17
+FROM openjdk:17-alpine AS build-stage
 ENV TZ="Europe/Vienna"
-EXPOSE 8080
 
 WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-#RUN ./mvnw dependency:go-offline
-
 COPY src ./src
 
-CMD ["./mvnw", "spring-boot:run"]
+RUN ./mvnw clean install
+
+
+
+# Dockerfile Backend OpenJDK 17
+FROM openjdk:17-alpine
+ENV TZ="Europe/Vienna"
+
+WORKDIR /app
+
+COPY --from=build-stage /app/target/backend-0.0.2.jar .
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/backend-0.0.2.jar"]
