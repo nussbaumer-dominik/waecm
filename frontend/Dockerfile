@@ -10,7 +10,7 @@ WORKDIR /app
 #ADD ./ ./
 #RUN npm run build
 
-COPY ./frontend/dist ./dist
+COPY ./dist ./dist
 
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
