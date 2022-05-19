@@ -86,6 +86,8 @@ showVariables:
 
 kaniko:frontend-build:
   stage: deploy
+  needs: 
+    - job: frontend-build
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
