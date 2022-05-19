@@ -1,6 +1,6 @@
 import React from "react";
-import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import {describe, expect, it} from 'vitest'
+import {render} from '@testing-library/react'
 import Settings from "./Settings";
 
 describe('Settings test', () => {
@@ -33,5 +33,6 @@ describe('Settings test', () => {
         expect(getByText("Abmelden")).toBeDefined();
         expect(getByLabelText("Abmelden")).toBeDefined();
         expect(container.querySelector(".p-inputtext").value).toBe("****")
+        expect(container.querySelector(".p-dropdown-label").textContent).toBe("EUR")
     })
 })
