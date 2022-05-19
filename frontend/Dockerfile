@@ -15,8 +15,6 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 COPY --from=build-stage /app/dist .
-COPY ./app.conf /etc/nginx/conf.d/default.conf
-COPY ./mime.types /etc/nginx/
 
 ENV TZ="Europe/Vienna"
 EXPOSE 4444
