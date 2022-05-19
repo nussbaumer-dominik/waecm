@@ -5,5 +5,5 @@ RUN rm -rf ./*
 COPY ./dist .
 
 ENV TZ="Europe/Vienna"
-EXPOSE 4444
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
