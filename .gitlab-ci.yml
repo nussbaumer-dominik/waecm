@@ -37,54 +37,28 @@ npm:audit:
     - cd frontend
     - npm audit
 
-frontend:
-  image: node
-  stage: build
-  script:
-    - npm config set proxy null
-    - npm config set https-proxy null
-    - npm config set registry http://registry.npmjs.org/
-    - cd frontend
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-        - build/*
-
-backend:
-  image: maven:3.8-amazoncorretto-17
-  stage: build
-  script:
-    - cd backend
-    - mvn clean install
-  artifacts:
-    paths:
-      - target/
-
-#backend-test:
+#backend:
 #  image: maven:3.8-amazoncorretto-17
-#  stage: test
-#  script: 
+#  stage: build
+#  script:
 #    - cd backend
-#    - mvn test
+#    - mvn clean install
+#  artifacts:
+#    paths:
+#      - target/
 
-#frontend-test:
-#  image: node
-#  stage: test
-#  script: 
-#    - npm config set proxy null
-#    - npm config set https-proxy null
-#    - npm config set registry http://registry.npmjs.org/
-#    - cd frontend
-#    - npm install
-#    - npm run test
-
+frontend-test:
+  image: node
+  stage: test
+  script: 
+    - cd frontend
+    - npm run test
 
 frontend-style-check:
    stage: style-check
    script:
      - cd frontend
-     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
+     #- npm install --save-dev eslint-config-react-app eslint@^8.0.0
      - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
 kaniko:build:
@@ -93,6 +67,7 @@ kaniko:build:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
+    - cd frontend
     - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
     - >-
       /kaniko/executor
