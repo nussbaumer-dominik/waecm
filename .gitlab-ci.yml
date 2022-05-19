@@ -30,16 +30,16 @@ npm:install:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
 
-#npm:audit:
-#  stage: audit
-#  needs: 
-#    - job: npm:install
-#  cache:
-#    <<: *node_cache
-#    policy: pull
-#  script:
-#    - cd frontend
-#    - npm audit
+npm:audit:
+  stage: audit
+  needs: 
+    - job: npm:install
+  cache:
+    <<: *node_cache
+    policy: pull
+  script:
+    - cd frontend
+    - npm audit
 
 frontend-build: 
   stage: build
@@ -55,32 +55,38 @@ frontend-build:
     paths:
       - frontend/dist
 
-#backend:
-#  image: maven:3.8-amazoncorretto-17
-#  stage: build
-#  script:
-#    - cd backend
-#    - mvn clean install
-#  artifacts:
-#    paths:
-#      - target/
+backend:
+  image: maven:3.8-amazoncorretto-17
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
+  artifacts:
+    paths:
+      - target/
 
-#frontend-test:
-#  image: node
-#  stage: test
-#  needs: 
-#    - job: frontend-build
-#  script: 
-#    - cd frontend
-#    - npm install vitest
-#    - npm run test
+frontend-test:
+  image: node
+  stage: test
+  cache:
+    <<: *node_cache
+    policy: pull
+  needs: 
+    - job: frontend-build
+  script: 
+    - cd frontend
+    - npm install vitest
+    - npm run test
 
-#frontend-style-check:
-#   stage: style-check
-#   script:
-#     - cd frontend
-#     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
-#     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
+frontend-style-check:
+   stage: style-check
+   cache:
+     <<: *node_cache
+     policy: pull
+   script:
+     - cd frontend
+     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
+     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
 kaniko:frontend-docker-deploy:
   stage: deploy

@@ -1,4 +1,21 @@
 # WAECM
+## Bsp 3 Gruppe 08
+### 1. Komponenten Tests
+
+Da wir Vite als Build-tool verwenden, hatten wir viele Probleme jest zum Laufgen zu bringen, da es dafür noch keinen first-party support gibt. Allerdings existiert ein Testing Framework für vite: vitest. Daher haben wir unsere Komponententests mit diesem umgesetzt.
+
+Insgesamt wurden die Texte von 3 Komponenten getestet: Settings, NewPayment und PaymentSuccess. Diese wurden gewählt, da sie keine requests zum Backend enthalten und ihre props leicht "gemocked" werden können.
+
+- Settings: Hier haben wir neben den angezeigten Texten auch überprüft, dass die beiden Inputs, Api-Key und Währung, korrekt befült werden.
+- NewPayment: Neben den diversen Texten wird auch überprüft, dass die Umrechnung in Satoshi korrekt ist und die Inputfelder befüllt werden.
+- PaymentSuccess: In dieser Komponente wurden lediglich die statischen Texte kontrolliert.
+
+### 2. GitLab CI
+Wir haben eine Pipeline mit mehreren Stages eingerichtet. Am Anfang werden die Node Modules installiert und in den Cache geladen, damit die nachfolgenden Frontend Jobs diese nicht erneut installieren müssen. Danach wird das package(-lock).json auf Sicherheitslücken mittels "npm audit" überprüft. Weiter geht es mit dem bauen von Front- und Backend in ihren jeweiligen Jobs. Abschließend wird das frontend noch mit eslint gelinted und danach mithilfe von kaniko ein docker image gemacht und in den docker hub hochgeladen. Das Backend wird ebenso mit der Hilfe von kaniko gebuildet und auf docker-hub hochgeladen.
+
+### 3. Cookie Web Component
+Wir haben das Design der Cookie-Komponente etwas abgeändert und sie im Footer platziert. Sobald man eine Option auswählt, werden die jeweiligen Cookies gesetzt, wobei der Wert des Cookies entweder auf true ist, sofern der Benutzer zugestimmt hat. Andernfalls ist der Inhalt des Cookies leer. Die notwendigen Cookies, also jene drei für das Speichern der Auswahl werden immer gesetzt.
+
 
 ## Bsp 2 Gruppe 08
 
