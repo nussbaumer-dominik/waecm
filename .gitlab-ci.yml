@@ -91,7 +91,8 @@ kaniko:frontend-docker-deploy:
   needs: 
     - job: frontend-build
   image:
-    name: gcr.io/kaniko-project/executor:debug
+    #name: gcr.io/kaniko-project/executor:debug
+    name: mgit/base:kaniko-executor-debug-stable
     entrypoint: [""]
   script:
     - cd frontend
