@@ -14,7 +14,6 @@ variables:
       - frontend/node_modules
 
 stages:
-  - setup
   - audit
   - build
   - test
@@ -22,13 +21,13 @@ stages:
   - deploy
 
 npm:install:
-  stage: setup
+  stage: .pre
   cache:
     <<: *node_cache
     policy: push
   script:
     - cd frontend
-    - npm ci
+    - npm ci --cache .npm --prefer-offline
 
 #npm:audit:
 #  stage: audit
@@ -41,6 +40,8 @@ npm:install:
 
 frontend-build: 
   stage: build
+  needs: 
+    - job: npm:install 
   cache:
     <<: *node_cache
     policy: pull
