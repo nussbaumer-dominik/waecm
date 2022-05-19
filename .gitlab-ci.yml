@@ -86,6 +86,6 @@ kaniko:build:
       /kaniko/executor
       --context "${CI_PROJECT_DIR}/frontend"
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
-      --destination "diason/waecm:test"
+      --destination "${DOCKER_HUB_USER}/waecm"
 
 
