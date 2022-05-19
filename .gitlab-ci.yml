@@ -41,13 +41,16 @@ npm:install:
 
 frontend-build: 
   stage: build
+  cache:
+    <<: *node_cache
+    policy: pull
   script:
     - cd frontend
-    - npm i
+    #- npm i
     - npm run build
   artifacts:
     paths:
-      - build
+      - dist
 
 #backend:
 #  image: maven:3.8-amazoncorretto-17
