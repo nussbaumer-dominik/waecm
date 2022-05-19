@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
+import {BrowserRouter, Link} from "react-router-dom";
 import {Button} from "primereact/button";
 
 export default function PaymentSuccess(props) {
@@ -22,10 +22,11 @@ export default function PaymentSuccess(props) {
         </div>
 
         <Button label="Neue Zahlung" onClick={navigateToNewPayment}/>
-
-        <Link to="../history">
-          Zur Historie
-        </Link>
+        <BrowserRouter>
+          <Link to="../history">
+            Zur Historie
+          </Link>
+        </BrowserRouter>
       </div>
     </div>
   );

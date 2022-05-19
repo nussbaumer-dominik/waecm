@@ -46,7 +46,7 @@ export default function History(props) {
         <div className="mt-4 lg:w-6 w-full">
           {history.map((payment, index) => (
             <div key={index} className="mb-2">
-              <div className="surface-card shadow-2 p-3 border-round">
+              <div className="surface-card shadow-2 p-3 border-round" id={index + ""}>
                 <div className="flex justify-content-between mb-3">
                   <div>
                     <span className="block text-500 font-medium mb-3">{payment.created_at}</span>

@@ -18,6 +18,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import '../cookie-banner.js';
 import DataRights from "../components/DataRights";
+import QrCode from "../components/QrCode";
 
 class App extends Component {
 
@@ -115,6 +116,15 @@ class App extends Component {
   }
 
   render() {
+    const paymentInfo = {
+      amount: "1000",
+      fee: "10",
+      description: "test",
+      currency: "EUR",
+      state: "newPayment",
+      payReq: "akujvbkajvnjkn",
+      id: "",
+    }
     return (
       <div className="min-h-screen flex flex-column">
         <div className="bg-gray-900" style={{height: "230px"}}>
@@ -146,23 +156,25 @@ class App extends Component {
               <Route path="/profile" element={<Profile user={this.state.user}
                                                        getUser={this.getUser}/>}/>
 
-              <Route path="/data-rights" element = {<DataRights user={this.state.user}
-                                                                getUser={this.getUser}/>}/>
+              <Route path="/data-rights" element={<DataRights user={this.state.user}
+                                                              getUser={this.getUser}/>}/>
+              <Route path="qr" element={<QrCode paymentInfo={paymentInfo}
+                                                api={this.apiService}/>}/>
             </Routes>
           </div>
         </div>
-          <cookie-banner>
-              <h1 slot="title">Cookies</h1>
-              <div slot="text"><p>Um Ihnen den bestmöglichen Service zu gewähleisten
-                  speichert  personenbezogene Daten.
-                  Beachten Sie die <a href="/data-rights">Datenschutz-Richtlinie</a>.</p></div>
-          </cookie-banner>
-          <script defer src="../cookie-banner.js"/>
+        <cookie-banner>
+          <h1 slot="title">Cookies</h1>
+          <div slot="text"><p>Um Ihnen den bestmöglichen Service zu gewähleisten
+            speichert personenbezogene Daten.
+            Beachten Sie die <a href="/data-rights">Datenschutz-Richtlinie</a>.</p></div>
+        </cookie-banner>
+        <script defer src="../cookie-banner.js"/>
         <footer>
 
-            <a href="/data-rights">
-                <button>Cookies Einstellung</button>
-            </a>
+          <a href="/data-rights">
+            <button>Cookies Einstellung</button>
+          </a>
 
         </footer>
       </div>

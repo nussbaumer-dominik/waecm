@@ -60,7 +60,7 @@ export default function Settings({state, setSettings, api, addUser, logout}) {
           </div>
           <div className="field">
             <label htmlFor="currency">Lokale Währung</label>
-            <Dropdown className="inputfield w-full"
+            <Dropdown className="inputfield w-full" id="currencyDropdown"
                       value={state.settings.localCurrency} options={rates} onChange={handleCurrencyChange}/>
           </div>
           <Button label="Speichern" onClick={handleSubmit}/>

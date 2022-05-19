@@ -21,7 +21,7 @@ export default function PaymentPage(props) {
   })
 
   useEffect(() => {
-    setPaymentInfo({...paymentInfo, currency: props.state.dbUser?.localCurrency})
+    setPaymentInfo({...paymentInfo, currency: !props.state.dbUser.localCurrency ? "EUR" : props.state.dbUser.localCurrency})
   }, [props.state.dbUser, setPaymentInfo]);
 
   switch (paymentInfo.state) {
