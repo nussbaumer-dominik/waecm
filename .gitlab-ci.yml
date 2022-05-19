@@ -5,6 +5,7 @@ variables:
   NO_PROXY: '$no_proxy'
   npm_config_cache: '${CI_PROJECT_DIR}/.npm'
   CONTAINER_REGISTRY: https://index.docker.io/v1/
+  CI_REGISTRY_IMAGE: "index.docker.io/diason/waecm"
 
 .cache: &node_cache
     key: node_modules
@@ -15,6 +16,7 @@ variables:
 stages:
   - setup
   - audit
+  - build
   - test
   - style-check
   - deploy
@@ -28,14 +30,24 @@ npm:install:
     - cd frontend
     - npm ci -d --prefer-offline
 
-npm:audit:
-  stage: audit
-  cache:
-    <<: *node_cache
-    policy: pull
+#npm:audit:
+#  stage: audit
+#  cache:
+#    <<: *node_cache
+#    policy: pull
+#  script:
+#    - cd frontend
+#    - npm audit
+
+frontend-build: 
+  stage: build
   script:
     - cd frontend
-    - npm audit
+    - npm run build
+  artifacts:
+    expires_in: 1 hour
+    paths:
+      - build
 
 #backend:
 #  image: maven:3.8-amazoncorretto-17
@@ -47,33 +59,45 @@ npm:audit:
 #    paths:
 #      - target/
 
-frontend-test:
-  image: node
-  stage: test
-  script: 
-    - cd frontend
-    - npm install vitest
-    - npm run test
+#frontend-test:
+#  image: node
+#  stage: test
+#  script: 
+#    - cd frontend
+#    - npm install vitest
+#    - npm run test
 
-frontend-style-check:
-   stage: style-check
-   script:
-     - cd frontend
-     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
-     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
+#frontend-style-check:
+#   stage: style-check
+#   script:
+#     - cd frontend
+#     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
+#     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
-kaniko:build:
+docker-build:
   stage: deploy
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+  image: docker:latest
+  services: 
+    - name: docker:dind
+  before_script:
+    - docker login -u "$DOCKER_HUB_USER" -p "$DOCKER_HUB_PASSWORD" $CI_REGISTRY
   script:
     - cd frontend
-    - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - >-
-      /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "diason/waecm:test"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+
+#kaniko:build:
+#  stage: deploy
+#  image:
+#    name: gcr.io/kaniko-project/executor:debug
+#    entrypoint: [""]
+#  script:
+#    - cd frontend
+#    - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/#config.json
+#    - >-
+#      /kaniko/executor
+#      --context "${CI_PROJECT_DIR}"
+#      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+#      --destination "diason/waecm:test"
 
 
