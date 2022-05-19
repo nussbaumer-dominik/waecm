@@ -87,4 +87,17 @@ frontend-style-check:
      - npm install --save-dev eslint-config-react-app eslint@^8.0.0
      - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
+kaniko:build:
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "diason/waecm:test"
+
 
