@@ -5,7 +5,7 @@ variables:
   NO_PROXY: '$no_proxy'
   npm_config_cache: '${CI_PROJECT_DIR}/.npm'
   CONTAINER_REGISTRY: https://index.docker.io/v1/
-  CI_REGISTRY_IMAGE: "test"
+  CI_REGISTRY_IMAGE: "waecm"
 
 .cache: &node_cache
     key: 
