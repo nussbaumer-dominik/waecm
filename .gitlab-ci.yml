@@ -55,7 +55,7 @@ frontend-build:
     paths:
       - frontend/dist
 
-backend:
+backend-build:
   image: maven:3.8-amazoncorretto-17
   stage: build
   script:
@@ -63,7 +63,7 @@ backend:
     - mvn clean install
   artifacts:
     paths:
-      - target/
+      - backend/target/
 
 frontend-test:
   image: node
@@ -75,7 +75,7 @@ frontend-test:
     - job: frontend-build
   script: 
     - cd frontend
-    - npm install vitest
+    #- npm install vitest
     - npm run test
 
 frontend-style-check:
@@ -85,13 +85,13 @@ frontend-style-check:
      policy: pull
    script:
      - cd frontend
-     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
+     #- npm install --save-dev eslint-config-react-app eslint@^8.0.0
      - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
 kaniko:frontend-docker-deploy:
   stage: deploy
-  #needs: 
-   # - job: frontend-build
+  needs: 
+    - job: frontend-build
   cache:
     <<: *node_cache
     policy: pull
@@ -110,6 +110,8 @@ kaniko:frontend-docker-deploy:
 
 kaniko:backend-docker-deploy:
   stage: deploy
+  needs:
+    - job: backend-build
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
