@@ -90,7 +90,7 @@ kaniko:frontend-build:
     - job: frontend-build
   image:
     #name: gcr.io/kaniko-project/executor:debug
-    name: gcr.io/kaniko-project/executor:v1.6.0
+    name: gcr.io/kaniko-project/executor:latest
     entrypoint: [""]
   script:
     - cd frontend
