@@ -50,7 +50,7 @@ frontend-build:
     - npm run build
   artifacts:
     paths:
-      - dist
+      - frontend/dist
 
 #backend:
 #  image: maven:3.8-amazoncorretto-17
