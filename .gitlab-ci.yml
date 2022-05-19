@@ -10,8 +10,8 @@ variables:
 .cache: &node_cache
     key: node_modules
     paths:
-      - .npm
-      - node_modules
+      - frontend/.npm
+      - frontend/node_modules
 
 stages:
   - setup
@@ -28,7 +28,7 @@ npm:install:
     policy: push
   script:
     - cd frontend
-    - npm i
+    - npm ci
 
 #npm:audit:
 #  stage: audit
