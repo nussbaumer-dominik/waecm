@@ -2,6 +2,7 @@ import * as React from "react";
 import {convertBTCtoSatoshi} from "../helpers/btcHelpers";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
+import {useEffect} from "react";
 
 export default function NewPayment(props) {
 
@@ -45,6 +46,12 @@ export default function NewPayment(props) {
         props.paymentInfo.state = "qrCode";
         props.setPaymentInfo({...props.paymentInfo});
       });
+
+    useEffect(() => {
+      if (props.state.settings.localCurrency === null) {
+        props.paymentInfo.currency = "EUR";
+      }
+    }, []);
   }
 
   return (
@@ -63,6 +70,12 @@ export default function NewPayment(props) {
                        value={props.paymentInfo.amount}
                        onChange={handleAmountChange}/>
           </div>
+          <small style={{float:"right"}} className="text-black-alpha-50" id="convertedSatoshi">
+              {new Intl.NumberFormat("de-DE", {
+                style: "currency",
+                currency: "SAT"
+              }).format(convertBTCtoSatoshi(props.rates, props.paymentInfo))}
+            </small>
         </div>
 
         <div className="field">

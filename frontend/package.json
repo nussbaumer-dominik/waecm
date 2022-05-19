@@ -9,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -29,7 +30,9 @@
   "devDependencies": {
     "@testing-library/react": "^13.2.0",
     "@vitejs/plugin-react": "1.1.1",
+    "c8": "^7.11.3",
     "jsdom": "^19.0.0",
+    "msw": "^0.40.0",
     "react-test-renderer": "^18.1.0",
     "vite": "2.7.0",
     "vitest": "^0.12.6"

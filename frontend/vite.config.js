@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
@@ -10,11 +10,10 @@ export default defineConfig({
   },
   plugins: [react()],
   test: {
+    globals: true,
     environment: 'jsdom',
-    deps: {
-      inline: [
-        "react-copy-to-clipboard"
-      ]
-    }
+    coverage:{
+      reporter:['text', 'json', 'html'] // change this property to the desired output
+    },
   },
 });
