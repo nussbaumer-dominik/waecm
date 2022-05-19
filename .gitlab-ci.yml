@@ -74,30 +74,18 @@ frontend-build:
 #     - npm install --save-dev eslint-config-react-app eslint@^8.0.0
 #     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
 
-docker-build:
+kaniko:build:
   stage: deploy
-  image: docker:latest
-  services: 
-    - name: docker:dind
-  before_script:
-    - docker login -u "$DOCKER_HUB_USER" -p "$DOCKER_HUB_PASSWORD" $CI_REGISTRY
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
     - cd frontend
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
-
-#kaniko:build:
-#  stage: deploy
-#  image:
-#    name: gcr.io/kaniko-project/executor:debug
-#    entrypoint: [""]
-#  script:
-#    - cd frontend
-#    - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/#config.json
-#    - >-
-#      /kaniko/executor
-#      --context "${CI_PROJECT_DIR}"
-#      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-#      --destination "diason/waecm:test"
+    - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}/frontend"
+      --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
+      --destination "diason/waecm:test"
 
 
