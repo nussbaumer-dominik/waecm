@@ -9,4 +9,12 @@ export default defineConfig({
     port: 4444,
   },
   plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    deps: {
+      inline: [
+        "react-copy-to-clipboard"
+      ]
+    }
+  },
 });
