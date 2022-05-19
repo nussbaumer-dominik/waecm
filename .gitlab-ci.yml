@@ -8,7 +8,9 @@ variables:
   CI_REGISTRY_IMAGE: "waecm"
 
 .cache: &node_cache
-    key: node_modules
+    key: 
+      files: 
+        - package.json
     paths:
       - frontend/.npm
       - frontend/node_modules
