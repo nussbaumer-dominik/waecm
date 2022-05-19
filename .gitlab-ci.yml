@@ -60,7 +60,7 @@ frontend-style-check:
    script:
      - cd frontend
      #- npm install --save-dev eslint-config-react-app eslint@^8.0.0
-     - node_modules/eslint/bin/eslint.js "src/**/*.{js,jsx}"
+     - eslint "src/**/*.{js,jsx}"
 
 kaniko:build:
   stage: deploy
