@@ -2,13 +2,15 @@ FROM node:17-alpine AS build-stage
 
 WORKDIR /app
 
-ADD ./package.json ./
-ADD ./package-lock.json ./
+#ADD ./package.json ./
+#ADD ./package-lock.json ./
 
-RUN npm install
+#RUN npm install
 
-ADD ./ ./
-RUN npm run build
+#ADD ./ ./
+#RUN npm run build
+
+COPY ./frontend/dist ./dist
 
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
