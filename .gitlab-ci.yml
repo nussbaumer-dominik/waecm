@@ -28,7 +28,7 @@ npm:install:
     policy: push
   script:
     - cd frontend
-    - npm ci -d --prefer-offline
+    - npm i
 
 #npm:audit:
 #  stage: audit
