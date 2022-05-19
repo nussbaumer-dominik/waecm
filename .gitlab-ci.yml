@@ -94,7 +94,7 @@ kaniko:frontend-docker-deploy:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    - cd frontend
+    #- cd frontend
     - echo "{\"auths\":{\"${CONTAINER_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_HUB_USER}" "${DOCKER_HUB_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
     - >-
       /kaniko/executor
