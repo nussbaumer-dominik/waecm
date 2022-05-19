@@ -45,7 +45,6 @@ frontend-build:
     - cd frontend
     - npm run build
   artifacts:
-    expires_in: 1 hour
     paths:
       - build
 
