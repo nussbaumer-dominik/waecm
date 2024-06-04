@@ -5,29 +5,20 @@ services:
     database:
         image: 'mongo:5.0'
         container_name: 'waecm-2022-group-08-bsp-2-mongoDb'
-        #environment:
-        #    - MONGO_INITDB_DATABASE=waecm-2022-group-08-bsp-2-mongoDb
-        #    - MONGO_INITDB_ROOT_USERNAME=waecm
-        #    - MONGO_INITDB_ROOT_PASSWORD=waecm
-        #volumes:
-        #    - ./mongoDb.js:/docker-entrypoint-initdb.d/mongoDb.js:ro
-        #    - ./mongo-volume:/data/db
         ports:
             -   '27018:27017'
             
     frontend:
-        image: diason/waecm:waecm-2022-group-08-bsp-2-frontend
+        image: diason/waecm:frontendLatest
         ports:
             - "4444:80"
-        container_name: waecm-2022-group-08-bsp-2-frontend
+        container_name: waecm-2022-group-08-bsp-3-frontend
     
     backend:
-        image: diason/waecm:waecm-2022-group-08-bsp-2-backend
+        image: diason/waecm:backendLatest
         ports:
             - "8080:8080"
-        container_name: waecm-2022-group-08-bsp-2-backend
-        #links:
-        #    - "database:db"
+        container_name: waecm-2022-group-08-bsp-3-backend
         environment:
             SPRING_APPLICATION_NAME: waecm-2022-group-08-bsp-2-backend
             SPRING_SLEUTH_ENABLED: "true"
